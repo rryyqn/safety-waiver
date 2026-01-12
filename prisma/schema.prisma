@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Guardian {
+  id       Int       @id @default(autoincrement())
+  email    String    @unique
+  name     String?
+  dob      DateTime?
+  phone    String?
+  waiver   Waiver?
+  children Child[]
+}
+
+model Child {
+  id         Int      @id @default(autoincrement())
+  name       String
+  dob        DateTime
+  guardianId Int
+  guardian   Guardian @relation(fields: [guardianId], references: [id])
+}
+
+model Waiver {
+  id          Int        @id @default(autoincrement())
+  guardianId  Int        @unique
+  guardian    Guardian   @relation(fields: [guardianId], references: [id])
+  submittedAt DateTime? // This tells us if it's a draft
+  agreement   Agreement?
+}
+
+model Agreement {
+  id             Int      @id @default(autoincrement())
+  acceptedAt     DateTime @default(now())
+  safetyRules    Boolean
+  liability      Boolean
+  medicalConsent Boolean
+  signature      String
+
+  waiverId Int    @unique
+  waiver   Waiver @relation(fields: [waiverId], references: [id])
+}
