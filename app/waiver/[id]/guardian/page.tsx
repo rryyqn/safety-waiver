@@ -24,7 +24,6 @@ const Page = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  console.log(dob);
   useEffect(() => {
     async function loadDraft() {
       if (isNaN(waiverId)) return;
@@ -51,7 +50,6 @@ const Page = () => {
     setErrors({});
     setFormError(null);
     setIsSubmitting(true);
-    console.log(dob);
 
     const result = guardianSchema.safeParse({ name, phone, dob });
     if (!result.success) {
