@@ -1,31 +1,49 @@
 "use client";
-import { updateGuardian } from "@/app/actions/waiver";
+import { getWaiverDraft, updateGuardian } from "@/app/actions/waiver";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { guardianSchema } from "@/lib/validations";
 import { ArrowRight, CircleAlert, LoaderCircle, User } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { DatePicker } from "@/components/DatePicker";
 
 const Page = () => {
+  const params = useParams();
+  const rawWaiverId = params.id;
+  const waiverId = Number(rawWaiverId);
+
+  const [guardianId, setGuardianId] = useState<number | null>(null);
+
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [dob, setDob] = useState("");
+  const [dob, setDob] = useState<Date>();
 
   const [formError, setFormError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const params = useParams();
-
-  const waiverId = params.id;
+  useEffect(() => {
+    async function loadDraft() {
+      if (isNaN(waiverId)) return;
+      const res = await getWaiverDraft(waiverId);
+      if (res.success && res.data) {
+        setGuardianId(res.data.guardianId);
+        // Pre-populate fields
+        setName(res.data.guardian.name || "");
+        setPhone(res.data.guardian.phone || "");
+        if (res.data.guardian.dob) setDob(new Date(res.data.guardian.dob));
+      }
+    }
+    loadDraft();
+  }, [waiverId]);
 
   const handleSubmit = async (
     e: React.FormEvent,
     name: string,
     phone: string,
-    dob: string
+    dob: Date | null | undefined
   ) => {
     e.preventDefault();
 
@@ -44,9 +62,18 @@ const Page = () => {
       return;
     }
 
-    const res = await updateGuardian(guardianId, { name, phone, dob });
+    if (!guardianId) {
+      setFormError("Guardian not found");
+      return;
+    }
+
+    const res = await updateGuardian(guardianId, {
+      name,
+      phone,
+      dob: dob ?? undefined,
+    });
     if (res.success && res.data) {
-      console.log("success");
+      window.location.href = `/waiver/${waiverId}/children`;
     } else if (res.error) {
       setFormError(res.error);
       console.log(res.error);
@@ -88,6 +115,7 @@ const Page = () => {
               id="phone"
               placeholder="Phone"
               className="w-full"
+              type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               aria-invalid={!!errors.phone}
@@ -103,13 +131,11 @@ const Page = () => {
         <div className="flex flex-col gap-3">
           <Label htmlFor="dob">Date of Birth</Label>
           <div className="flex flex-col gap-1">
-            <Input
+            <DatePicker
               id="dob"
-              placeholder="DD/MM/YYYY"
-              className="w-full"
               value={dob}
-              onChange={(e) => setDob(e.target.value)}
-              aria-invalid={!!errors.dob}
+              onChange={(date) => setDob(date)}
+              ariainvalid={!!errors.dob}
             />
             {errors.dob && (
               <p className="text-destructive font-extrabold flex flex-row gap-1 items-center">

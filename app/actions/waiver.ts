@@ -35,7 +35,7 @@ export async function initiateWaiver(email: string) {
 
 export async function updateGuardian(
   guardianId: number,
-  data: { name?: string; phone?: string; dob?: string }
+  data: { name?: string; phone?: string; dob?: Date }
 ) {
   try {
     const updated = await db.guardian.update({
@@ -43,13 +43,24 @@ export async function updateGuardian(
       data: {
         name: data.name,
         phone: data.phone,
-        // If dob is provided as a string from a form, convert it to a Date object
-        dob: data.dob ? new Date(data.dob) : undefined,
+        dob: data.dob,
       },
     });
     return { success: true, data: updated };
   } catch (error) {
     return { success: false, error: "Failed to save guardian draft" };
+  }
+}
+
+export async function getWaiverDraft(waiverId: number) {
+  try {
+    const waiver = await db.waiver.findUnique({
+      where: { id: waiverId },
+      include: { guardian: true },
+    });
+    return { success: true, data: waiver };
+  } catch (error) {
+    return { success: false, error: "Failed to fetch waiver" };
   }
 }
 

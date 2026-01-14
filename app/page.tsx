@@ -58,7 +58,7 @@ export default function Home() {
     }
   };
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4">
       <main className="w-full max-w-150 mx-auto flex items-center px-8 flex-col gap-8 justify-center bg-background rounded-sm py-10 shadow-[0px_0px_19px_-10px_#00000024]">
         <WaiverStepper currentStepIndex={0} />
         <div className="flex flex-col w-full gap-8">
