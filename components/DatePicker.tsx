@@ -150,12 +150,10 @@ export function DatePicker({
     // Try to parse the date if we have a complete input
     if (formatted.length === 10) {
       const parsed = parse(formatted, "dd/MM/yyyy", new Date());
-      if (isValid(parsed) && parsed <= new Date()) {
+      if (isValid(parsed)) {
         onChange?.(parsed);
         setViewDate(parsed);
       }
-    } else if (formatted.length === 0) {
-      onChange?.(undefined);
     }
   };
 
@@ -213,7 +211,10 @@ export function DatePicker({
 
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
-  const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
+  const years = Array.from(
+    { length: currentYear - 1900 },
+    (_, i) => currentYear - i
+  );
 
   // Check if a month should be disabled (future month in current year)
   const isMonthDisabled = (monthIndex: number) => {
@@ -330,9 +331,9 @@ export function DatePicker({
           <PopoverTrigger asChild>
             <div className="flex flex-row gap-2 items-center absolute right-0 top-0 h-full px-4 w-fit">
               <CalendarIcon className="h-4 w-4 text-muted" />
-              <button className="font-normal text-muted-foreground cursor-pointer underline decoration-2 underline-offset-4 decoration-primary/20 hover:decoration-primary/50 outline-none focus-visible:decoration-primary/70 focus-visible:decoration-4 transition-all">
+              <p className="font-normal text-muted-foreground cursor-pointer underline decoration-2 underline-offset-4 decoration-primary/20 hover:decoration-primary/50 outline-none focus-visible:decoration-primary/70 focus-visible:decoration-4 transition-all">
                 Select Date
-              </button>
+              </p>
             </div>
           </PopoverTrigger>
         </div>

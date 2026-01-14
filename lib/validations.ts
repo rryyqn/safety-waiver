@@ -15,11 +15,12 @@ export const guardianSchema = z.object({
     .pipe(z.coerce.number("Phone number is invalid")),
   dob: z
     .date("Date of birth is invalid")
-    .min(1, "Date of birth is required")
+    .min(new Date("1900-01-01"), "Date of birth is invalid")
+    .max(new Date(), { message: "Date of birth cannot be in the future" })
     .refine((date) => {
       const age =
         (new Date().getTime() - new Date(date).getTime()) /
         (1000 * 60 * 60 * 24 * 365.25);
       return age >= 18;
-    }, "Guardian must be 18 years or older."),
+    }, "Guardian must be 18 years or older"),
 });
