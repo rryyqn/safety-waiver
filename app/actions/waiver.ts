@@ -1,10 +1,13 @@
 "use server";
 
 import { db } from "@/lib/d";
+import { emailSchema } from "@/lib/validations";
 
 export async function initiateWaiver(email: string) {
   try {
-    if (email === "") return { success: false, error: "Email is required" };
+    const result = emailSchema.safeParse(email);
+    if (!result.success)
+      return { success: false, error: result.error.issues[0].message };
     let guardian = await db.guardian.findUnique({
       where: { email },
       include: { waiver: true },
@@ -30,7 +33,7 @@ export async function initiateWaiver(email: string) {
   }
 }
 
-export async function updateGuardianDraft(
+export async function updateGuardian(
   guardianId: number,
   data: { name?: string; phone?: string; dob?: string }
 ) {
@@ -50,7 +53,7 @@ export async function updateGuardianDraft(
   }
 }
 
-export async function saveChildren(
+export async function updateChildren(
   guardianId: number,
   children: { id?: number; name: string; dob: string }[]
 ) {

@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import {
-  initiateWaiver,
-  updateGuardianDraft,
-  saveChildren,
+  createWaiver,
+  updateGuardian,
+  updateChildren,
   submitWaiver,
 } from "@/app/actions/waiver";
 
@@ -31,7 +31,7 @@ export default function TestPage() {
         <button
           className="bg-blue-500 text-white px-4 py-1 ml-2"
           onClick={async () => {
-            const res = await initiateWaiver(email);
+            const res = await createWaiver(email);
             setStatus(res);
             if (res.success && res.data) {
               setGuardianId(res.data.id);
@@ -52,7 +52,7 @@ export default function TestPage() {
           className="bg-green-600 text-white px-4 py-1"
           disabled={!guardianId}
           onClick={async () => {
-            const res = await updateGuardianDraft(guardianId!, {
+            const res = await updateGuardian(guardianId!, {
               name: "Test Guardian",
               phone: "123-456-7890",
               dob: "1990-01-01",
@@ -71,7 +71,7 @@ export default function TestPage() {
           className="bg-purple-600 text-white px-4 py-1"
           disabled={!guardianId}
           onClick={async () => {
-            const res = await saveChildren(guardianId!, [
+            const res = await updateChildren(guardianId!, [
               { name: "Child One", dob: "2015-05-10" },
               { name: "Child Two", dob: "2018-08-20" },
             ]);

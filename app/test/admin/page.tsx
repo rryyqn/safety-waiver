@@ -10,7 +10,7 @@ export default function AdminTestPage() {
   useEffect(() => {
     async function loadData() {
       const res = await getCompletedWaivers();
-      if (res.success) setWaivers(res.data);
+      if (res.success && res.data) setWaivers(res.data);
       setLoading(false);
     }
     loadData();
