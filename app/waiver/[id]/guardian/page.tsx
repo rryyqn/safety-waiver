@@ -4,10 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { guardianSchema } from "@/lib/validations";
-import { ArrowRight, CircleAlert, LoaderCircle, User } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CircleAlert,
+  LoaderCircle,
+  User,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { DatePicker } from "@/components/DatePicker";
+import Link from "next/link";
 
 const Page = () => {
   const params = useParams();
@@ -146,21 +153,29 @@ const Page = () => {
           </div>
         </div>
         <div className="flex flex-col">
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-            onClick={(e) => handleSubmit(e, name, phone, dob)}
-            className="disabled:bg-primary/80"
-          >
-            {isSubmitting ? (
-              <LoaderCircle className="size-5 animate-spin" />
-            ) : (
-              <>
-                Continue
-                <ArrowRight className="size-5" />
-              </>
-            )}
-          </Button>
+          <div className="flex flex-row gap-2">
+            <Button className="w-fit" variant="secondary" asChild>
+              <Link href={`/`}>
+                <ArrowLeft className="size-5" />
+                Back
+              </Link>
+            </Button>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              onClick={(e) => handleSubmit(e, name, phone, dob)}
+              className="disabled:bg-primary/80 flex-1"
+            >
+              {isSubmitting ? (
+                <LoaderCircle className="size-5 animate-spin" />
+              ) : (
+                <>
+                  Continue
+                  <ArrowRight className="size-5" />
+                </>
+              )}
+            </Button>
+          </div>
           {formError && (
             <p className="text-destructive font-extrabold flex flex-row gap-1 items-center w-full truncate">
               <CircleAlert className="size-4" />
