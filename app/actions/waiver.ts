@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/lib/d";
-import { emailSchema } from "@/lib/validations";
+import { emailSchema, guardianSchema } from "@/lib/validations";
 
 export async function initiateWaiver(email: string) {
   try {
@@ -38,6 +38,13 @@ export async function updateGuardian(
   data: { name?: string; phone?: string; dob?: Date }
 ) {
   try {
+    const result = guardianSchema.safeParse({
+      name: data.name,
+      phone: data.phone,
+      dob: data.dob,
+    });
+    if (!result.success)
+      return { success: false, error: result.error.issues[0].message };
     const updated = await db.guardian.update({
       where: { id: guardianId },
       data: {
