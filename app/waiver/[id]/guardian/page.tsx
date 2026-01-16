@@ -46,12 +46,7 @@ const Page = () => {
     loadDraft();
   }, [waiverId]);
 
-  const handleSubmit = async (
-    e: React.FormEvent,
-    name: string,
-    phone: string,
-    dob: Date | null | undefined
-  ) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setErrors({});
@@ -71,6 +66,7 @@ const Page = () => {
 
     if (!guardianId) {
       setFormError("Guardian not found");
+      setIsSubmitting(false);
       return;
     }
 
@@ -163,7 +159,7 @@ const Page = () => {
             <Button
               type="submit"
               disabled={isSubmitting}
-              onClick={(e) => handleSubmit(e, name, phone, dob)}
+              onClick={handleSubmit}
               className="disabled:bg-primary/80 flex-1"
             >
               {isSubmitting ? (

@@ -147,13 +147,18 @@ export function DatePicker({
       }, 0);
     }
 
-    // Try to parse the date if we have a complete input
     if (formatted.length === 10) {
       const parsed = parse(formatted, "dd/MM/yyyy", new Date());
       if (isValid(parsed)) {
         onChange?.(parsed);
         setViewDate(parsed);
+      } else {
+        // invalid date
+        onChange?.(undefined);
       }
+    } else {
+      // incomplete or empty, clear state
+      onChange?.(undefined);
     }
   };
 
@@ -229,13 +234,12 @@ export function DatePicker({
       <div className="text-center font-extrabold mb-3 text-foreground">
         Select Year
       </div>
-      <div className="grid grid-cols-4 gap-2 max-h-[280px] overflow-y-auto">
+      <div className="grid grid-cols-4 gap-2 max-h-[280px] overflow-y-auto p-1">
         {years.map((year) => (
           <Button
             key={year}
             variant={year === value?.getFullYear() ? "secondary" : "ghost"}
-            size="sm"
-            className="h-9 font-normal"
+            className="h-9 font-normal p-2"
             onClick={() => handleYearSelect(year)}
           >
             {year}
@@ -261,7 +265,7 @@ export function DatePicker({
         </span>
         <div className="w-7" />
       </div>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-2 p-1">
         {MONTHS.map((month, index) => (
           <Button
             key={month}
@@ -271,8 +275,7 @@ export function DatePicker({
                 ? "secondary"
                 : "ghost"
             }
-            size="sm"
-            className="h-9 font-normal"
+            className="h-9 font-normal p-2"
             disabled={isMonthDisabled(index)}
             onClick={() => handleMonthSelect(index)}
           >
