@@ -63,6 +63,10 @@ const Page = () => {
         if (res.data.submittedAt != null || res.data.submittedAt != undefined) {
           setIsEdit(true);
           setSubmittedAt(res.data.submittedAt);
+          setSignature(res.data.agreement?.signature || "");
+          setRulesAgreement(res.data.agreement?.rulesAgreement || false);
+          setRisksAgreement(res.data.agreement?.risksAgreement || false);
+          setMedicalAgreement(res.data.agreement?.medicalAgreement || false);
         }
       } else {
         setFormError(res.error || "Failed to load waiver data");
@@ -78,6 +82,12 @@ const Page = () => {
     setFormError(null);
     setIsSubmitting(true);
 
+    if (isEdit) {
+      window.location.href = `/waiver/${waiverId}/success`;
+      setIsSubmitting(false);
+      return;
+    }
+
     const result = agreementSchema.safeParse({
       signature,
       guardianName,
@@ -85,6 +95,7 @@ const Page = () => {
       risksAgreement,
       medicalAgreement,
     });
+    console.log(rulesAgreement, risksAgreement, medicalAgreement);
     if (!result.success) {
       const fieldErrors = result.error.flatten().fieldErrors;
       const errorMap = Object.fromEntries(
@@ -125,11 +136,13 @@ const Page = () => {
         <div className="p-4 rounded-sm bg-primary/10 text-primary w-fit mb-4">
           <ClipboardCheck className="size-8" />
         </div>
-        <h1 className="text-4xl font-extrabold">Sign Agreement</h1>
+        <h1 className="text-4xl font-extrabold">
+          {isEdit ? "Review Agreement" : "Sign Agreement"}
+        </h1>
 
         <p>
           {isEdit
-            ? `Your waiver was signed at ${submittedAt?.toLocaleDateString()}`
+            ? `Your waiver was originally signed on ${submittedAt?.toLocaleDateString()}`
             : "All sections must be acknowledged to sign the agreement"}
         </p>
       </div>
@@ -138,12 +151,15 @@ const Page = () => {
           <div className="flex flex-col">
             <Label
               aria-invalid={!!errors.risksAgreement}
-              className="hover:bg-accent/50 flex items-start gap-3 rounded-sm border border-input p-4 has-aria-checked:border-blue-300 transition-all cursor-pointer has-aria-checked:bg-blue-50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive"
+              className={`hover:bg-accent/50 flex items-start gap-3 rounded-sm border border-input p-4 has-aria-checked:border-blue-300 transition-all cursor-pointer has-aria-checked:bg-blue-50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive ${
+                isEdit ? "cursor-not-allowed" : ""
+              }`}
             >
               <Checkbox
                 id="toggle-2"
-                className=" data-[state=checked]:bg-primary data-[state=checked]:text-white"
-                checked={rulesAgreement}
+                className="data-[state=checked]:bg-primary data-[state=checked]:text-white"
+                checked={rulesAgreement || isEdit}
+                disabled={isEdit}
                 onCheckedChange={() => setRulesAgreement(!rulesAgreement)}
               />
               <div className="grid gap-2 font-normal">
@@ -168,12 +184,15 @@ const Page = () => {
           <div className="flex flex-col">
             <Label
               aria-invalid={!!errors.risksAgreement}
-              className="hover:bg-accent/50 flex items-start gap-3 rounded-sm border border-input p-4 has-aria-checked:border-blue-300 transition-all cursor-pointer has-aria-checked:bg-blue-50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive"
+              className={`hover:bg-accent/50 flex items-start gap-3 rounded-sm border border-input p-4 has-aria-checked:border-blue-300 transition-all cursor-pointer has-aria-checked:bg-blue-50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive ${
+                isEdit ? "cursor-not-allowed" : ""
+              }`}
             >
               <Checkbox
                 id="toggle-2"
                 className=" data-[state=checked]:bg-primary data-[state=checked]:text-white"
-                checked={risksAgreement}
+                checked={risksAgreement || isEdit}
+                disabled={isEdit}
                 onCheckedChange={() => setRisksAgreement(!risksAgreement)}
               />
               <div className="grid gap-2 font-normal">
@@ -199,12 +218,15 @@ const Page = () => {
           <div className="flex flex-col">
             <Label
               aria-invalid={!!errors.risksAgreement}
-              className="hover:bg-accent/50 flex items-start gap-3 rounded-sm border border-input p-4 has-aria-checked:border-blue-300 transition-all cursor-pointer has-aria-checked:bg-blue-50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive"
+              className={`hover:bg-accent/50 flex items-start gap-3 rounded-sm border border-input p-4 has-aria-checked:border-blue-300 transition-all cursor-pointer has-aria-checked:bg-blue-50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive ${
+                isEdit ? "cursor-not-allowed" : ""
+              }`}
             >
               <Checkbox
                 id="toggle-2"
                 className=" data-[state=checked]:bg-primary data-[state=checked]:text-white"
-                checked={medicalAgreement}
+                checked={medicalAgreement || isEdit}
+                disabled={isEdit}
                 onCheckedChange={() => setMedicalAgreement(!medicalAgreement)}
               />
               <div className="grid gap-2 font-normal">
@@ -229,14 +251,19 @@ const Page = () => {
         </div>
         <div className="flex flex-col gap-3">
           <Label>Digital Signature</Label>
-          <p className="text-sm">Type your full name to sign the agreement</p>
+          <p className="text-sm">
+            Type your full name{" "}
+            <span className="font-extrabold">{guardianName}</span> to sign the
+            agreement
+          </p>
           <div className="flex flex-col gap-1">
             <Input
               type="text"
               value={signature}
               onChange={(e) => setSignature(e.target.value)}
-              placeholder="Full Name"
+              placeholder={guardianName}
               aria-invalid={!!errors.signature}
+              disabled={isEdit}
             />
             {errors.signature && (
               <p className="text-destructive font-extrabold flex flex-row gap-1 items-start">
@@ -264,7 +291,7 @@ const Page = () => {
                 <LoaderCircle className="size-5 animate-spin" />
               ) : (
                 <>
-                  Continue
+                  {isEdit ? "Update Waiver" : "Finalise Waiver"}
                   <ArrowRight className="size-5" />
                 </>
               )}

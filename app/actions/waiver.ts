@@ -80,7 +80,7 @@ export async function getWaiverDraft(waiverId: number) {
   try {
     const waiver = await db.waiver.findUnique({
       where: { id: waiverId },
-      include: { guardian: true },
+      include: { guardian: true, agreement: true },
     });
     if (!waiver) return { success: false, error: "Waiver not found" };
     return { success: true, data: waiver };
