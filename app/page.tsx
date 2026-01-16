@@ -85,7 +85,7 @@ export default function Home() {
                   className="w-full"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  aria-invalid={emailError ? "true" : "false"}
+                  aria-invalid={!!emailError || !!emailExistingError}
                 />
                 {emailError && (
                   <p className="text-destructive font-extrabold flex flex-row gap-1 items-center">

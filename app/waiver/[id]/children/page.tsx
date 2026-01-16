@@ -49,10 +49,7 @@ const Page = () => {
     setChildren([...children, { name: "", dob: undefined }]);
 
   const removeChild = (index: number) => {
-    // Don't allow removing the last child if you require at least one
-    if (children.length > 1) {
       setChildren(children.filter((_, i) => i !== index));
-    }
   };
   const updateChild = (index: number, field: "name" | "dob", value: any) => {
     const newChildren = [...children]; // 1. Copy the array
