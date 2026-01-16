@@ -179,8 +179,8 @@ export type ChildGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
 
 export type ChildGroupByOutputType = {
   id: number
-  name: string
-  dob: Date
+  name: string | null
+  dob: Date | null
   guardianId: number
   _count: ChildCountAggregateOutputType | null
   _avg: ChildAvgAggregateOutputType | null
@@ -209,16 +209,16 @@ export type ChildWhereInput = {
   OR?: Prisma.ChildWhereInput[]
   NOT?: Prisma.ChildWhereInput | Prisma.ChildWhereInput[]
   id?: Prisma.IntFilter<"Child"> | number
-  name?: Prisma.StringFilter<"Child"> | string
-  dob?: Prisma.DateTimeFilter<"Child"> | Date | string
+  name?: Prisma.StringNullableFilter<"Child"> | string | null
+  dob?: Prisma.DateTimeNullableFilter<"Child"> | Date | string | null
   guardianId?: Prisma.IntFilter<"Child"> | number
   guardian?: Prisma.XOR<Prisma.GuardianScalarRelationFilter, Prisma.GuardianWhereInput>
 }
 
 export type ChildOrderByWithRelationInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  dob?: Prisma.SortOrder
+  name?: Prisma.SortOrderInput | Prisma.SortOrder
+  dob?: Prisma.SortOrderInput | Prisma.SortOrder
   guardianId?: Prisma.SortOrder
   guardian?: Prisma.GuardianOrderByWithRelationInput
 }
@@ -228,16 +228,16 @@ export type ChildWhereUniqueInput = Prisma.AtLeast<{
   AND?: Prisma.ChildWhereInput | Prisma.ChildWhereInput[]
   OR?: Prisma.ChildWhereInput[]
   NOT?: Prisma.ChildWhereInput | Prisma.ChildWhereInput[]
-  name?: Prisma.StringFilter<"Child"> | string
-  dob?: Prisma.DateTimeFilter<"Child"> | Date | string
+  name?: Prisma.StringNullableFilter<"Child"> | string | null
+  dob?: Prisma.DateTimeNullableFilter<"Child"> | Date | string | null
   guardianId?: Prisma.IntFilter<"Child"> | number
   guardian?: Prisma.XOR<Prisma.GuardianScalarRelationFilter, Prisma.GuardianWhereInput>
 }, "id">
 
 export type ChildOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
-  name?: Prisma.SortOrder
-  dob?: Prisma.SortOrder
+  name?: Prisma.SortOrderInput | Prisma.SortOrder
+  dob?: Prisma.SortOrderInput | Prisma.SortOrder
   guardianId?: Prisma.SortOrder
   _count?: Prisma.ChildCountOrderByAggregateInput
   _avg?: Prisma.ChildAvgOrderByAggregateInput
@@ -251,53 +251,53 @@ export type ChildScalarWhereWithAggregatesInput = {
   OR?: Prisma.ChildScalarWhereWithAggregatesInput[]
   NOT?: Prisma.ChildScalarWhereWithAggregatesInput | Prisma.ChildScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Child"> | number
-  name?: Prisma.StringWithAggregatesFilter<"Child"> | string
-  dob?: Prisma.DateTimeWithAggregatesFilter<"Child"> | Date | string
+  name?: Prisma.StringNullableWithAggregatesFilter<"Child"> | string | null
+  dob?: Prisma.DateTimeNullableWithAggregatesFilter<"Child"> | Date | string | null
   guardianId?: Prisma.IntWithAggregatesFilter<"Child"> | number
 }
 
 export type ChildCreateInput = {
-  name: string
-  dob: Date | string
+  name?: string | null
+  dob?: Date | string | null
   guardian: Prisma.GuardianCreateNestedOneWithoutChildrenInput
 }
 
 export type ChildUncheckedCreateInput = {
   id?: number
-  name: string
-  dob: Date | string
+  name?: string | null
+  dob?: Date | string | null
   guardianId: number
 }
 
 export type ChildUpdateInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   guardian?: Prisma.GuardianUpdateOneRequiredWithoutChildrenNestedInput
 }
 
 export type ChildUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   guardianId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ChildCreateManyInput = {
   id?: number
-  name: string
-  dob: Date | string
+  name?: string | null
+  dob?: Date | string | null
   guardianId: number
 }
 
 export type ChildUpdateManyMutationInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ChildUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   guardianId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -384,19 +384,15 @@ export type ChildUncheckedUpdateManyWithoutGuardianNestedInput = {
   deleteMany?: Prisma.ChildScalarWhereInput | Prisma.ChildScalarWhereInput[]
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
-}
-
 export type ChildCreateWithoutGuardianInput = {
-  name: string
-  dob: Date | string
+  name?: string | null
+  dob?: Date | string | null
 }
 
 export type ChildUncheckedCreateWithoutGuardianInput = {
   id?: number
-  name: string
-  dob: Date | string
+  name?: string | null
+  dob?: Date | string | null
 }
 
 export type ChildCreateOrConnectWithoutGuardianInput = {
@@ -430,32 +426,32 @@ export type ChildScalarWhereInput = {
   OR?: Prisma.ChildScalarWhereInput[]
   NOT?: Prisma.ChildScalarWhereInput | Prisma.ChildScalarWhereInput[]
   id?: Prisma.IntFilter<"Child"> | number
-  name?: Prisma.StringFilter<"Child"> | string
-  dob?: Prisma.DateTimeFilter<"Child"> | Date | string
+  name?: Prisma.StringNullableFilter<"Child"> | string | null
+  dob?: Prisma.DateTimeNullableFilter<"Child"> | Date | string | null
   guardianId?: Prisma.IntFilter<"Child"> | number
 }
 
 export type ChildCreateManyGuardianInput = {
   id?: number
-  name: string
-  dob: Date | string
+  name?: string | null
+  dob?: Date | string | null
 }
 
 export type ChildUpdateWithoutGuardianInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ChildUncheckedUpdateWithoutGuardianInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ChildUncheckedUpdateManyWithoutGuardianInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  dob?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dob?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -509,8 +505,8 @@ export type $ChildPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
-    name: string
-    dob: Date
+    name: string | null
+    dob: Date | null
     guardianId: number
   }, ExtArgs["result"]["child"]>
   composites: {}

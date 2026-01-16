@@ -331,12 +331,12 @@ export function DatePicker({
             maxLength={10}
             aria-invalid={ariainvalid}
           />
-          <PopoverTrigger asChild>
+          <PopoverTrigger asChild className="cursor-pointer group">
             <div className="flex flex-row gap-2 items-center absolute right-0 top-0 h-full px-4 w-fit">
-              <CalendarIcon className="h-4 w-4 text-muted" />
-              <p className="font-normal text-muted-foreground cursor-pointer underline decoration-2 underline-offset-4 decoration-primary/20 hover:decoration-primary/50 outline-none focus-visible:decoration-primary/70 focus-visible:decoration-4 transition-all">
-                Select Date
+              <p className="font-normal text-muted-foreground cursor-pointer underline decoration-2 underline-offset-4 decoration-primary/20 group-hover:decoration-primary/50 outline-none focus-visible:decoration-primary/70 focus-visible:decoration-4 transition-all">
+                Select
               </p>
+              <CalendarIcon className="h-4 w-4 text-muted" />
             </div>
           </PopoverTrigger>
         </div>

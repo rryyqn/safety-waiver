@@ -781,9 +781,9 @@ export type WaiverScalarFieldEnum = (typeof WaiverScalarFieldEnum)[keyof typeof 
 export const AgreementScalarFieldEnum = {
   id: 'id',
   acceptedAt: 'acceptedAt',
-  safetyRules: 'safetyRules',
-  liability: 'liability',
-  medicalConsent: 'medicalConsent',
+  rulesAgreement: 'rulesAgreement',
+  risksAgreement: 'risksAgreement',
+  medicalAgreement: 'medicalAgreement',
   signature: 'signature',
   waiverId: 'waiverId'
 } as const

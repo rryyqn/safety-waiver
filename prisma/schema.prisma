@@ -25,11 +25,11 @@ model Guardian {
 }
 
 model Child {
-  id         Int      @id @default(autoincrement())
-  name       String
-  dob        DateTime
+  id         Int       @id @default(autoincrement())
+  name       String?
+  dob        DateTime?
   guardianId Int
-  guardian   Guardian @relation(fields: [guardianId], references: [id])
+  guardian   Guardian  @relation(fields: [guardianId], references: [id])
 }
 
 model Waiver {
@@ -41,12 +41,12 @@ model Waiver {
 }
 
 model Agreement {
-  id             Int      @id @default(autoincrement())
-  acceptedAt     DateTime @default(now())
-  safetyRules    Boolean
-  liability      Boolean
-  medicalConsent Boolean
-  signature      String
+  id               Int      @id @default(autoincrement())
+  acceptedAt       DateTime @default(now())
+  rulesAgreement   Boolean
+  risksAgreement   Boolean
+  medicalAgreement Boolean
+  signature        String
 
   waiverId Int    @unique
   waiver   Waiver @relation(fields: [waiverId], references: [id])

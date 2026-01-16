@@ -39,9 +39,9 @@ export type AgreementSumAggregateOutputType = {
 export type AgreementMinAggregateOutputType = {
   id: number | null
   acceptedAt: Date | null
-  safetyRules: boolean | null
-  liability: boolean | null
-  medicalConsent: boolean | null
+  rulesAgreement: boolean | null
+  risksAgreement: boolean | null
+  medicalAgreement: boolean | null
   signature: string | null
   waiverId: number | null
 }
@@ -49,9 +49,9 @@ export type AgreementMinAggregateOutputType = {
 export type AgreementMaxAggregateOutputType = {
   id: number | null
   acceptedAt: Date | null
-  safetyRules: boolean | null
-  liability: boolean | null
-  medicalConsent: boolean | null
+  rulesAgreement: boolean | null
+  risksAgreement: boolean | null
+  medicalAgreement: boolean | null
   signature: string | null
   waiverId: number | null
 }
@@ -59,9 +59,9 @@ export type AgreementMaxAggregateOutputType = {
 export type AgreementCountAggregateOutputType = {
   id: number
   acceptedAt: number
-  safetyRules: number
-  liability: number
-  medicalConsent: number
+  rulesAgreement: number
+  risksAgreement: number
+  medicalAgreement: number
   signature: number
   waiverId: number
   _all: number
@@ -81,9 +81,9 @@ export type AgreementSumAggregateInputType = {
 export type AgreementMinAggregateInputType = {
   id?: true
   acceptedAt?: true
-  safetyRules?: true
-  liability?: true
-  medicalConsent?: true
+  rulesAgreement?: true
+  risksAgreement?: true
+  medicalAgreement?: true
   signature?: true
   waiverId?: true
 }
@@ -91,9 +91,9 @@ export type AgreementMinAggregateInputType = {
 export type AgreementMaxAggregateInputType = {
   id?: true
   acceptedAt?: true
-  safetyRules?: true
-  liability?: true
-  medicalConsent?: true
+  rulesAgreement?: true
+  risksAgreement?: true
+  medicalAgreement?: true
   signature?: true
   waiverId?: true
 }
@@ -101,9 +101,9 @@ export type AgreementMaxAggregateInputType = {
 export type AgreementCountAggregateInputType = {
   id?: true
   acceptedAt?: true
-  safetyRules?: true
-  liability?: true
-  medicalConsent?: true
+  rulesAgreement?: true
+  risksAgreement?: true
+  medicalAgreement?: true
   signature?: true
   waiverId?: true
   _all?: true
@@ -198,9 +198,9 @@ export type AgreementGroupByArgs<ExtArgs extends runtime.Types.Extensions.Intern
 export type AgreementGroupByOutputType = {
   id: number
   acceptedAt: Date
-  safetyRules: boolean
-  liability: boolean
-  medicalConsent: boolean
+  rulesAgreement: boolean
+  risksAgreement: boolean
+  medicalAgreement: boolean
   signature: string
   waiverId: number
   _count: AgreementCountAggregateOutputType | null
@@ -231,9 +231,9 @@ export type AgreementWhereInput = {
   NOT?: Prisma.AgreementWhereInput | Prisma.AgreementWhereInput[]
   id?: Prisma.IntFilter<"Agreement"> | number
   acceptedAt?: Prisma.DateTimeFilter<"Agreement"> | Date | string
-  safetyRules?: Prisma.BoolFilter<"Agreement"> | boolean
-  liability?: Prisma.BoolFilter<"Agreement"> | boolean
-  medicalConsent?: Prisma.BoolFilter<"Agreement"> | boolean
+  rulesAgreement?: Prisma.BoolFilter<"Agreement"> | boolean
+  risksAgreement?: Prisma.BoolFilter<"Agreement"> | boolean
+  medicalAgreement?: Prisma.BoolFilter<"Agreement"> | boolean
   signature?: Prisma.StringFilter<"Agreement"> | string
   waiverId?: Prisma.IntFilter<"Agreement"> | number
   waiver?: Prisma.XOR<Prisma.WaiverScalarRelationFilter, Prisma.WaiverWhereInput>
@@ -242,9 +242,9 @@ export type AgreementWhereInput = {
 export type AgreementOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrder
-  safetyRules?: Prisma.SortOrder
-  liability?: Prisma.SortOrder
-  medicalConsent?: Prisma.SortOrder
+  rulesAgreement?: Prisma.SortOrder
+  risksAgreement?: Prisma.SortOrder
+  medicalAgreement?: Prisma.SortOrder
   signature?: Prisma.SortOrder
   waiverId?: Prisma.SortOrder
   waiver?: Prisma.WaiverOrderByWithRelationInput
@@ -257,9 +257,9 @@ export type AgreementWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.AgreementWhereInput[]
   NOT?: Prisma.AgreementWhereInput | Prisma.AgreementWhereInput[]
   acceptedAt?: Prisma.DateTimeFilter<"Agreement"> | Date | string
-  safetyRules?: Prisma.BoolFilter<"Agreement"> | boolean
-  liability?: Prisma.BoolFilter<"Agreement"> | boolean
-  medicalConsent?: Prisma.BoolFilter<"Agreement"> | boolean
+  rulesAgreement?: Prisma.BoolFilter<"Agreement"> | boolean
+  risksAgreement?: Prisma.BoolFilter<"Agreement"> | boolean
+  medicalAgreement?: Prisma.BoolFilter<"Agreement"> | boolean
   signature?: Prisma.StringFilter<"Agreement"> | string
   waiver?: Prisma.XOR<Prisma.WaiverScalarRelationFilter, Prisma.WaiverWhereInput>
 }, "id" | "waiverId">
@@ -267,9 +267,9 @@ export type AgreementWhereUniqueInput = Prisma.AtLeast<{
 export type AgreementOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrder
-  safetyRules?: Prisma.SortOrder
-  liability?: Prisma.SortOrder
-  medicalConsent?: Prisma.SortOrder
+  rulesAgreement?: Prisma.SortOrder
+  risksAgreement?: Prisma.SortOrder
+  medicalAgreement?: Prisma.SortOrder
   signature?: Prisma.SortOrder
   waiverId?: Prisma.SortOrder
   _count?: Prisma.AgreementCountOrderByAggregateInput
@@ -285,18 +285,18 @@ export type AgreementScalarWhereWithAggregatesInput = {
   NOT?: Prisma.AgreementScalarWhereWithAggregatesInput | Prisma.AgreementScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Agreement"> | number
   acceptedAt?: Prisma.DateTimeWithAggregatesFilter<"Agreement"> | Date | string
-  safetyRules?: Prisma.BoolWithAggregatesFilter<"Agreement"> | boolean
-  liability?: Prisma.BoolWithAggregatesFilter<"Agreement"> | boolean
-  medicalConsent?: Prisma.BoolWithAggregatesFilter<"Agreement"> | boolean
+  rulesAgreement?: Prisma.BoolWithAggregatesFilter<"Agreement"> | boolean
+  risksAgreement?: Prisma.BoolWithAggregatesFilter<"Agreement"> | boolean
+  medicalAgreement?: Prisma.BoolWithAggregatesFilter<"Agreement"> | boolean
   signature?: Prisma.StringWithAggregatesFilter<"Agreement"> | string
   waiverId?: Prisma.IntWithAggregatesFilter<"Agreement"> | number
 }
 
 export type AgreementCreateInput = {
   acceptedAt?: Date | string
-  safetyRules: boolean
-  liability: boolean
-  medicalConsent: boolean
+  rulesAgreement: boolean
+  risksAgreement: boolean
+  medicalAgreement: boolean
   signature: string
   waiver: Prisma.WaiverCreateNestedOneWithoutAgreementInput
 }
@@ -304,18 +304,18 @@ export type AgreementCreateInput = {
 export type AgreementUncheckedCreateInput = {
   id?: number
   acceptedAt?: Date | string
-  safetyRules: boolean
-  liability: boolean
-  medicalConsent: boolean
+  rulesAgreement: boolean
+  risksAgreement: boolean
+  medicalAgreement: boolean
   signature: string
   waiverId: number
 }
 
 export type AgreementUpdateInput = {
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  safetyRules?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  liability?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  medicalConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rulesAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  risksAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  medicalAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   signature?: Prisma.StringFieldUpdateOperationsInput | string
   waiver?: Prisma.WaiverUpdateOneRequiredWithoutAgreementNestedInput
 }
@@ -323,9 +323,9 @@ export type AgreementUpdateInput = {
 export type AgreementUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  safetyRules?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  liability?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  medicalConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rulesAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  risksAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  medicalAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   signature?: Prisma.StringFieldUpdateOperationsInput | string
   waiverId?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -333,27 +333,27 @@ export type AgreementUncheckedUpdateInput = {
 export type AgreementCreateManyInput = {
   id?: number
   acceptedAt?: Date | string
-  safetyRules: boolean
-  liability: boolean
-  medicalConsent: boolean
+  rulesAgreement: boolean
+  risksAgreement: boolean
+  medicalAgreement: boolean
   signature: string
   waiverId: number
 }
 
 export type AgreementUpdateManyMutationInput = {
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  safetyRules?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  liability?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  medicalConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rulesAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  risksAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  medicalAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   signature?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type AgreementUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  safetyRules?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  liability?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  medicalConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rulesAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  risksAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  medicalAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   signature?: Prisma.StringFieldUpdateOperationsInput | string
   waiverId?: Prisma.IntFieldUpdateOperationsInput | number
 }
@@ -366,9 +366,9 @@ export type AgreementNullableScalarRelationFilter = {
 export type AgreementCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrder
-  safetyRules?: Prisma.SortOrder
-  liability?: Prisma.SortOrder
-  medicalConsent?: Prisma.SortOrder
+  rulesAgreement?: Prisma.SortOrder
+  risksAgreement?: Prisma.SortOrder
+  medicalAgreement?: Prisma.SortOrder
   signature?: Prisma.SortOrder
   waiverId?: Prisma.SortOrder
 }
@@ -381,9 +381,9 @@ export type AgreementAvgOrderByAggregateInput = {
 export type AgreementMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrder
-  safetyRules?: Prisma.SortOrder
-  liability?: Prisma.SortOrder
-  medicalConsent?: Prisma.SortOrder
+  rulesAgreement?: Prisma.SortOrder
+  risksAgreement?: Prisma.SortOrder
+  medicalAgreement?: Prisma.SortOrder
   signature?: Prisma.SortOrder
   waiverId?: Prisma.SortOrder
 }
@@ -391,9 +391,9 @@ export type AgreementMaxOrderByAggregateInput = {
 export type AgreementMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   acceptedAt?: Prisma.SortOrder
-  safetyRules?: Prisma.SortOrder
-  liability?: Prisma.SortOrder
-  medicalConsent?: Prisma.SortOrder
+  rulesAgreement?: Prisma.SortOrder
+  risksAgreement?: Prisma.SortOrder
+  medicalAgreement?: Prisma.SortOrder
   signature?: Prisma.SortOrder
   waiverId?: Prisma.SortOrder
 }
@@ -435,24 +435,28 @@ export type AgreementUncheckedUpdateOneWithoutWaiverNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AgreementUpdateToOneWithWhereWithoutWaiverInput, Prisma.AgreementUpdateWithoutWaiverInput>, Prisma.AgreementUncheckedUpdateWithoutWaiverInput>
 }
 
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Date | string
+}
+
 export type BoolFieldUpdateOperationsInput = {
   set?: boolean
 }
 
 export type AgreementCreateWithoutWaiverInput = {
   acceptedAt?: Date | string
-  safetyRules: boolean
-  liability: boolean
-  medicalConsent: boolean
+  rulesAgreement: boolean
+  risksAgreement: boolean
+  medicalAgreement: boolean
   signature: string
 }
 
 export type AgreementUncheckedCreateWithoutWaiverInput = {
   id?: number
   acceptedAt?: Date | string
-  safetyRules: boolean
-  liability: boolean
-  medicalConsent: boolean
+  rulesAgreement: boolean
+  risksAgreement: boolean
+  medicalAgreement: boolean
   signature: string
 }
 
@@ -474,18 +478,18 @@ export type AgreementUpdateToOneWithWhereWithoutWaiverInput = {
 
 export type AgreementUpdateWithoutWaiverInput = {
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  safetyRules?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  liability?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  medicalConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rulesAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  risksAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  medicalAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   signature?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type AgreementUncheckedUpdateWithoutWaiverInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   acceptedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  safetyRules?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  liability?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  medicalConsent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  rulesAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  risksAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  medicalAgreement?: Prisma.BoolFieldUpdateOperationsInput | boolean
   signature?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
@@ -494,9 +498,9 @@ export type AgreementUncheckedUpdateWithoutWaiverInput = {
 export type AgreementSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   acceptedAt?: boolean
-  safetyRules?: boolean
-  liability?: boolean
-  medicalConsent?: boolean
+  rulesAgreement?: boolean
+  risksAgreement?: boolean
+  medicalAgreement?: boolean
   signature?: boolean
   waiverId?: boolean
   waiver?: boolean | Prisma.WaiverDefaultArgs<ExtArgs>
@@ -505,9 +509,9 @@ export type AgreementSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type AgreementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   acceptedAt?: boolean
-  safetyRules?: boolean
-  liability?: boolean
-  medicalConsent?: boolean
+  rulesAgreement?: boolean
+  risksAgreement?: boolean
+  medicalAgreement?: boolean
   signature?: boolean
   waiverId?: boolean
   waiver?: boolean | Prisma.WaiverDefaultArgs<ExtArgs>
@@ -516,9 +520,9 @@ export type AgreementSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type AgreementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   acceptedAt?: boolean
-  safetyRules?: boolean
-  liability?: boolean
-  medicalConsent?: boolean
+  rulesAgreement?: boolean
+  risksAgreement?: boolean
+  medicalAgreement?: boolean
   signature?: boolean
   waiverId?: boolean
   waiver?: boolean | Prisma.WaiverDefaultArgs<ExtArgs>
@@ -527,14 +531,14 @@ export type AgreementSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type AgreementSelectScalar = {
   id?: boolean
   acceptedAt?: boolean
-  safetyRules?: boolean
-  liability?: boolean
-  medicalConsent?: boolean
+  rulesAgreement?: boolean
+  risksAgreement?: boolean
+  medicalAgreement?: boolean
   signature?: boolean
   waiverId?: boolean
 }
 
-export type AgreementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "acceptedAt" | "safetyRules" | "liability" | "medicalConsent" | "signature" | "waiverId", ExtArgs["result"]["agreement"]>
+export type AgreementOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "acceptedAt" | "rulesAgreement" | "risksAgreement" | "medicalAgreement" | "signature" | "waiverId", ExtArgs["result"]["agreement"]>
 export type AgreementInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   waiver?: boolean | Prisma.WaiverDefaultArgs<ExtArgs>
 }
@@ -553,9 +557,9 @@ export type $AgreementPayload<ExtArgs extends runtime.Types.Extensions.InternalA
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     acceptedAt: Date
-    safetyRules: boolean
-    liability: boolean
-    medicalConsent: boolean
+    rulesAgreement: boolean
+    risksAgreement: boolean
+    medicalAgreement: boolean
     signature: string
     waiverId: number
   }, ExtArgs["result"]["agreement"]>
@@ -984,9 +988,9 @@ export interface Prisma__AgreementClient<T, Null = never, ExtArgs extends runtim
 export interface AgreementFieldRefs {
   readonly id: Prisma.FieldRef<"Agreement", 'Int'>
   readonly acceptedAt: Prisma.FieldRef<"Agreement", 'DateTime'>
-  readonly safetyRules: Prisma.FieldRef<"Agreement", 'Boolean'>
-  readonly liability: Prisma.FieldRef<"Agreement", 'Boolean'>
-  readonly medicalConsent: Prisma.FieldRef<"Agreement", 'Boolean'>
+  readonly rulesAgreement: Prisma.FieldRef<"Agreement", 'Boolean'>
+  readonly risksAgreement: Prisma.FieldRef<"Agreement", 'Boolean'>
+  readonly medicalAgreement: Prisma.FieldRef<"Agreement", 'Boolean'>
   readonly signature: Prisma.FieldRef<"Agreement", 'String'>
   readonly waiverId: Prisma.FieldRef<"Agreement", 'Int'>
 }

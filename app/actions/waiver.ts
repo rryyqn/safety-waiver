@@ -1,7 +1,12 @@
 "use server";
 
 import { db } from "@/lib/d";
-import { emailSchema, guardianSchema } from "@/lib/validations";
+import {
+  agreementSchema,
+  childrenArraySchema,
+  emailSchema,
+  guardianSchema,
+} from "@/lib/validations";
 
 export async function initiateWaiver(email: string) {
   try {
@@ -33,6 +38,17 @@ export async function initiateWaiver(email: string) {
   }
 }
 
+export async function getGuardian(guardianId: number) {
+  try {
+    const guardian = await db.guardian.findUnique({
+      where: { id: guardianId },
+    });
+    return { success: true, data: guardian };
+  } catch (error) {
+    return { success: false, error: "Failed to fetch waiver" };
+  }
+}
+
 export async function updateGuardian(
   guardianId: number,
   data: { name?: string; phone?: string; dob?: Date }
@@ -45,6 +61,7 @@ export async function updateGuardian(
     });
     if (!result.success)
       return { success: false, error: result.error.issues[0].message };
+
     const updated = await db.guardian.update({
       where: { id: guardianId },
       data: {
@@ -65,23 +82,42 @@ export async function getWaiverDraft(waiverId: number) {
       where: { id: waiverId },
       include: { guardian: true },
     });
+    if (!waiver) return { success: false, error: "Waiver not found" };
     return { success: true, data: waiver };
   } catch (error) {
     return { success: false, error: "Failed to fetch waiver" };
   }
 }
 
+export async function getChildren(guardianId: number) {
+  try {
+    const children = await db.child.findMany({ where: { guardianId } });
+    return { success: true, data: children };
+  } catch (error) {
+    return { success: false, error: "Failed to fetch children" };
+  }
+}
+
 export async function updateChildren(
   guardianId: number,
-  children: { id?: number; name: string; dob: string }[]
+  children: { name?: string; dob?: Date }[]
 ) {
+  const validation = childrenArraySchema.safeParse(children);
+
+  if (!validation.success) {
+    return {
+      success: false,
+      error: "Invalid data provided",
+      details: validation.error.flatten(),
+    };
+  }
   try {
     const childrenList = await db.$transaction([
       db.child.deleteMany({ where: { guardianId } }),
       db.child.createMany({
         data: children.map((child) => ({
           name: child.name,
-          dob: new Date(child.dob),
+          dob: child.dob,
           guardianId: guardianId,
         })),
       }),
@@ -135,6 +171,11 @@ export async function submitWaiver(waiverId: number, agreementData: any) {
       throw new Error("The signing Guardian must be at least 18 years old.");
     }
 
+    const agreementDataResult = agreementSchema.safeParse(agreementData);
+    if (!agreementDataResult.success) {
+      throw new Error(agreementDataResult.error.issues[0].message);
+    }
+
     // 3. EXECUTE THE COMMIT
     const result = await db.$transaction([
       // Update the waiver status
@@ -146,9 +187,9 @@ export async function submitWaiver(waiverId: number, agreementData: any) {
       db.agreement.create({
         data: {
           waiverId: waiverId,
-          safetyRules: agreementData.safetyRules,
-          liability: agreementData.liability,
-          medicalConsent: agreementData.medicalConsent,
+          rulesAgreement: agreementData.rulesAgreement,
+          risksAgreement: agreementData.risksAgreement,
+          medicalAgreement: agreementData.medicalAgreement,
           signature: agreementData.signature,
         },
       }),
