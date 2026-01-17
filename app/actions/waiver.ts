@@ -213,3 +213,32 @@ export async function getCompletedWaivers() {
     return { success: false, error: "Database error" };
   }
 }
+
+export async function getWaiverProgress(waiverId: number) {
+  const waiver = await db.waiver.findUnique({
+    where: { id: waiverId },
+    include: {
+      guardian: { include: { children: true } },
+      agreement: true,
+    },
+  });
+
+  if (!waiver) return { exists: false };
+
+  // Logic to determine furthest allowed step
+  let step = "email";
+  if (waiver.guardian.email) {
+    step = "guardian";
+  }
+  if (waiver.guardian.name && waiver.guardian.phone && waiver.guardian.dob) {
+    step = "children";
+  }
+  if (waiver.guardian.children.length > 0) {
+    step = "agreement";
+  }
+  if (waiver.submittedAt) {
+    step = "success";
+  }
+
+  return { exists: true, allowedStep: step, data: waiver };
+}

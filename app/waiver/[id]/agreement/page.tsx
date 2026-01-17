@@ -12,15 +12,14 @@ import { Label } from "@/components/ui/label";
 import { agreementSchema } from "@/lib/validations";
 import {
   ClipboardCheck,
-  HeartPulse,
   ShieldCheck,
   TriangleAlert,
-  Activity,
   Cross,
   CircleAlert,
   ArrowLeft,
   LoaderCircle,
   ArrowRight,
+  Check,
 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -140,14 +139,52 @@ const Page = () => {
           {isEdit ? "Review Agreement" : "Sign Agreement"}
         </h1>
 
-        <p>
-          {isEdit
-            ? `Your waiver was originally signed on ${submittedAt?.toLocaleDateString()}`
-            : "All sections must be acknowledged to sign the agreement"}
-        </p>
+        {isEdit ? (
+          <span>
+            <p>
+              Your waiver was originally signed at{" "}
+              {submittedAt?.toLocaleDateString()}.{" "}
+              <a
+                href="#"
+                className="cursor-pointer text-muted-foreground underline decoration-2 underline-offset-4 decoration-primary/20 hover:decoration-primary/50 outline-none focus-visible:border-primary focus-visible:border-b-4 transition-all"
+              >
+                View agreement details here.
+              </a>
+            </p>
+          </span>
+        ) : (
+          <>
+            <p>All sections must be acknowledged to sign the agreement. </p>
+            <a href="#">View agreement details here.</a>
+          </>
+        )}
       </div>
       <form className="flex flex-col gap-6">
-        <div className="flex flex-col gap-3">
+        <div
+          className={`${
+            isEdit ? "block" : "hidden"
+          } flex flex-col bg-muted-background rounded-sm p-4 text-muted-foreground gap-4`}
+        >
+          <ul className="flex flex-col gap-2">
+            <li className="flex gap-2 items-center">
+              <Check className="size-5" />
+              <p>Agreed to safety and facility rules</p>
+            </li>
+            <li className="flex gap-2 items-center">
+              <Check className="size-5" />
+              <p>Agreed to risks of injury</p>
+            </li>
+            <li className="flex gap-2 items-center">
+              <Check className="size-5" />
+              <p>Agreed to medical authorization</p>
+            </li>
+          </ul>
+          <p>
+            Waiver signed by {guardianName} at{" "}
+            {submittedAt?.toLocaleDateString()}
+          </p>
+        </div>
+        <div className={`flex flex-col gap-3 ${isEdit ? "hidden" : ""}`}>
           <div className="flex flex-col">
             <Label
               aria-invalid={!!errors.risksAgreement}
@@ -249,7 +286,7 @@ const Page = () => {
             )}
           </div>
         </div>
-        <div className="flex flex-col gap-3">
+        <div className={`flex flex-col gap-3 ${isEdit ? "hidden" : ""}`}>
           <Label>Digital Signature</Label>
           <p className="text-sm">
             Type your full name{" "}
@@ -291,7 +328,7 @@ const Page = () => {
                 <LoaderCircle className="size-5 animate-spin" />
               ) : (
                 <>
-                  {isEdit ? "Update Waiver" : "Finalise Waiver"}
+                  Complete Waiver
                   <ArrowRight className="size-5" />
                 </>
               )}
