@@ -34,6 +34,10 @@ const config: runtime.GetPrismaClientConfig = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "rhel-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -47,6 +51,7 @@ const config: runtime.GetPrismaClientConfig = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -55,8 +60,8 @@ const config: runtime.GetPrismaClientConfig = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"./generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Guardian {\n  id       Int       @id @default(autoincrement())\n  email    String    @unique\n  name     String?\n  dob      DateTime?\n  phone    String?\n  waiver   Waiver?\n  children Child[]\n}\n\nmodel Child {\n  id         Int       @id @default(autoincrement())\n  name       String?\n  dob        DateTime?\n  guardianId Int\n  guardian   Guardian  @relation(fields: [guardianId], references: [id])\n}\n\nmodel Waiver {\n  id          Int        @id @default(autoincrement())\n  guardianId  Int        @unique\n  guardian    Guardian   @relation(fields: [guardianId], references: [id])\n  submittedAt DateTime? // This tells us if it's a draft\n  agreement   Agreement?\n}\n\nmodel Agreement {\n  id               Int      @id @default(autoincrement())\n  acceptedAt       DateTime @default(now())\n  rulesAgreement   Boolean\n  risksAgreement   Boolean\n  medicalAgreement Boolean\n  signature        String\n\n  waiverId Int    @unique\n  waiver   Waiver @relation(fields: [waiverId], references: [id])\n}\n",
-  "inlineSchemaHash": "8d6268a56f40530b55e17c716550ab84f4ea51f933c756d747e16c44da2ca514",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client\"\n  output        = \"./generated\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Guardian {\n  id       Int       @id @default(autoincrement())\n  email    String    @unique\n  name     String?\n  dob      DateTime?\n  phone    String?\n  waiver   Waiver?\n  children Child[]\n}\n\nmodel Child {\n  id         Int       @id @default(autoincrement())\n  name       String?\n  dob        DateTime?\n  guardianId Int\n  guardian   Guardian  @relation(fields: [guardianId], references: [id])\n}\n\nmodel Waiver {\n  id          Int        @id @default(autoincrement())\n  guardianId  Int        @unique\n  guardian    Guardian   @relation(fields: [guardianId], references: [id])\n  submittedAt DateTime? // This tells us if it's a draft\n  agreement   Agreement?\n}\n\nmodel Agreement {\n  id               Int      @id @default(autoincrement())\n  acceptedAt       DateTime @default(now())\n  rulesAgreement   Boolean\n  risksAgreement   Boolean\n  medicalAgreement Boolean\n  signature        String\n\n  waiverId Int    @unique\n  waiver   Waiver @relation(fields: [waiverId], references: [id])\n}\n",
+  "inlineSchemaHash": "8e8c65a8c35ee0e225371bff544aca646b9a9d82f2ee6dac3af62d15b8016d2b",
   "copyEngine": true,
   "runtimeDataModel": {
     "models": {},
