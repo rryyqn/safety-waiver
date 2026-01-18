@@ -45,7 +45,10 @@ export async function getGuardian(guardianId: number) {
     });
     return { success: true, data: guardian };
   } catch (error) {
-    return { success: false, error: "Failed to fetch waiver" };
+    return {
+      success: false,
+      error: "Guardian not found. Please try again later",
+    };
   }
 }
 
@@ -72,7 +75,10 @@ export async function updateGuardian(
     });
     return { success: true, data: updated };
   } catch (error) {
-    return { success: false, error: "Failed to save guardian draft" };
+    return {
+      success: false,
+      error: "Failed to update. Please try again later",
+    };
   }
 }
 
@@ -85,7 +91,10 @@ export async function getWaiverDraft(waiverId: number) {
     if (!waiver) return { success: false, error: "Waiver not found" };
     return { success: true, data: waiver };
   } catch (error) {
-    return { success: false, error: "Failed to fetch waiver" };
+    return {
+      success: false,
+      error: "Failed to fetch waiver. Please try again later",
+    };
   }
 }
 
@@ -94,7 +103,10 @@ export async function getChildren(guardianId: number) {
     const children = await db.child.findMany({ where: { guardianId } });
     return { success: true, data: children };
   } catch (error) {
-    return { success: false, error: "Failed to fetch children" };
+    return {
+      success: false,
+      error: "Failed to fetch children. Please try again later",
+    };
   }
 }
 
@@ -127,11 +139,23 @@ export async function updateChildren(
     return { success: true, data: childrenList };
   } catch (error) {
     console.log(error);
-    return { success: false, error: "Database error" };
+    return {
+      success: false,
+      error: "Failed to update children. Please try again later",
+    };
   }
 }
 
-export async function submitWaiver(waiverId: number, agreementData: any) {
+export async function submitWaiver(
+  waiverId: number,
+  agreementData: {
+    signature: string;
+    guardianName: string;
+    rulesAgreement: boolean;
+    risksAgreement: boolean;
+    medicalAgreement: boolean;
+  }
+) {
   try {
     // 1. Fetch the data to validate it
     const waiver = await db.waiver.findUnique({
@@ -154,7 +178,12 @@ export async function submitWaiver(waiverId: number, agreementData: any) {
     if (!waiver.guardian.dob)
       throw new Error("Guardian date of birth is required");
     const hasIncompleteChild = children.some(
-      (child: any) => !child.name || !child.dob
+      (child: {
+        id: number;
+        name: string | null;
+        dob: Date | null;
+        guardianId: number;
+      }) => !child.name || !child.dob
     );
     if (hasIncompleteChild) {
       throw new Error("All children must have a name and date of birth.");
@@ -196,8 +225,11 @@ export async function submitWaiver(waiverId: number, agreementData: any) {
     ]);
 
     return { success: true };
-  } catch (error: any) {
-    return { success: false, error: error.message };
+  } catch (error) {
+    return {
+      success: false,
+      error: "Failed to submit waiver. Please try again later",
+    };
   }
 }
 
