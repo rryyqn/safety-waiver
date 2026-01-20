@@ -1,11 +1,29 @@
-import { getAdminWaivers } from "@/app/actions/admin";
+import { getFilteredWaivers } from "@/app/actions/admin";
+import FilterBar from "@/components/FilterBar";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default async function AdminDashboard() {
-  const waivers = await getAdminWaivers();
+export default async function AdminDashboard({ searchParams }: { searchParams: Promise<{search: string; from: string; to: string}>; }) {
+
+  const cookieStore = await cookies();
+  const adminSession = cookieStore.get("admin-session")?.value;
+
+  if (adminSession !== process.env.ADMIN_PASSWORD) {
+    redirect("/admin/login");
+  }
+
+  const params = await searchParams;
+
+  const waivers = await getFilteredWaivers({
+    search: params.search,
+    startDate: params.from ? new Date(params.from) : undefined,
+    endDate: params.to ? new Date(params.to) : undefined,
+  });
 
   return (
     <div className="p-8 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold mb-8">Waiver Administration</h1>
+      <FilterBar />
       <div className="border rounded-lg overflow-hidden">
         <table className="w-full text-left">
           <thead className="bg-muted">

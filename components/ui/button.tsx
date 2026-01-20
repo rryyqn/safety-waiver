@@ -19,6 +19,7 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         dashed:
           "border-2 border-dashed border-input hover:border-primary/50 bg-transparent hover:bg-primary/5 text-muted-foreground",
+          calendar: ""
       },
       size: {
         default: "h-12 px-4 py-3 has-[>svg]:px-3",
