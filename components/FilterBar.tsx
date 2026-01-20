@@ -19,8 +19,8 @@ const FilterBar = () => {
         searchParams.get("from") ? new Date(searchParams.get("from")!) : undefined
       );
       const [dateRange, setDateRange] = useState<DateRange | undefined>({
-        from: searchParams.get("from") ? new Date(searchParams.get("from")!) : new Date(new Date().getTime() - 2 * 24 * 60 * 60 * 1000),
-        to: searchParams.get("to") ? new Date(searchParams.get("to")!) : new Date(),
+        from: searchParams.get("from") ? new Date(searchParams.get("from")!) : undefined,
+        to: searchParams.get("to") ? new Date(searchParams.get("to")!) : undefined,
       })
     
 
@@ -119,7 +119,7 @@ const FilterBar = () => {
           </div>
           <div className="flex flex-col gap-4">
             <Label>Custom Date Range</Label>
-            {dateRange?.from?.toLocaleDateString(undefined, { month: "short", day: "numeric" }) + " ~ " + dateRange?.to?.toLocaleDateString(undefined, { month: "short", day: "numeric" })}
+            {(dateRange?.from && dateRange?.to) && dateRange?.from?.toLocaleDateString(undefined, { month: "short", day: "numeric" }) + " ~ " + dateRange?.to?.toLocaleDateString(undefined, { month: "short", day: "numeric" })}
           <Calendar
       mode="range"
       defaultMonth={dateRange?.from}
