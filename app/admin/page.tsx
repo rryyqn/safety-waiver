@@ -1,5 +1,9 @@
 import { getFilteredWaivers } from "@/app/actions/admin";
+import { AppSidebar } from "@/components/AppSidebar";
 import FilterBar from "@/components/FilterBar";
+import { Separator } from "@/components/ui/separator";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import WaiversAccordion from "@/components/WaiversAccordion";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -21,35 +25,29 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   });
 
   return (
-    <div className="p-8 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8">Waiver Administration</h1>
-      <FilterBar />
-      <div className="border rounded-lg overflow-hidden">
-        <table className="w-full text-left">
-          <thead className="bg-muted">
-            <tr>
-              <th className="p-4">Guardian</th>
-              <th className="p-4">Email</th>
-              <th className="p-4">Children</th>
-              <th className="p-4">Signed Date</th>
-              <th className="p-4">Signature</th>
-            </tr>
-          </thead>
-          <tbody>
-            {waivers.map((w) => (
-              <tr key={w.id} className="border-t hover:bg-muted/50">
-                <td className="p-4 font-medium">{w.guardian.name}</td>
-                <td className="p-4">{w.guardian.email}</td>
-                <td className="p-4">{w.guardian.children.map((child) => <p key={child.id}>{child.name}</p>)}</td>
-                <td className="p-4">
-                  {w.submittedAt?.toLocaleDateString()}
-                </td>
-                <td className="p-4 italic text-sm">{w.agreement?.signature}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <main className="flex-1 w-full relative">
+        <SidebarTrigger className="absolute top-2 left-2 opacity-10 hover:opacity-100 transition-all" />
+        <div className="p-10 w-full flex flex-col gap-8">
+          <h1 className="text-3xl font-bold">Waivers</h1>
+          <FilterBar />
+          <div className="flex flex-row justify-end gap-4 items-center text-sm">
+            <p>{waivers.length} waivers found</p>
+            
+            {(params.search || params.from || params.to) && <a href="/admin" className="underline underline-offset-4 decoration-2 decoration-input">Clear Filters</a>}
+          </div>
+          <div className="overflow-hidden">
+            <div className="grid grid-cols-3 gap-4 px-4 py-2 pr-16">
+              <p className="font-bold">Guardian</p>
+              <p className="font-bold">Phone</p>
+              <p className="font-bold">Children</p>
+            </div>        
+            <Separator />
+            <WaiversAccordion waivers={waivers} />
+          </div>
+        </div>
+      </main>
+    </SidebarProvider>
   );
 }
