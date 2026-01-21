@@ -85,7 +85,7 @@ const FilterBar = () => {
     
   return (
     <div className="w-full flex flex-col md:flex-row justify-between gap-8 md:gap-4">
-      <div className="flex flex-col gap-4 w-full">
+      <div className="flex flex-col gap-4 w-full min-w-66">
 <label>Search Waiver</label>
       <Input placeholder="Search guardian name or phone" className="focus-visible:ring-muted/50 focus-visible:border-muted/70" value={search} onChange={(e) => {setSearch(e.target.value)}} />
       </div>
@@ -94,7 +94,6 @@ const FilterBar = () => {
 <div className="flex flex-row gap-2">
 
       <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("lastHour")}>Last Hour</Button>
-      <Button variant="secondary" className="hidden sm:block font-normal" onClick={() => shortcutDates("last3Hours")}>Last 3 Hours</Button>
       <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("lastDay")}>Last Day</Button>
       <Dialog>
 

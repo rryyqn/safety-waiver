@@ -1,7 +1,8 @@
-import { Calendar, FileText, Heart, HeartPulse, Home,  Search, Settings } from "lucide-react"
+import { Calendar, FileText, Heart, HeartPulse, Home,  Search, Settings, X } from "lucide-react"
 
 import {
   Sidebar,
+  SidebarClose,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
@@ -9,6 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar"
 
 // Menu items.
@@ -45,6 +47,7 @@ export function AppSidebar() {
     <Sidebar>
         <SidebarHeader>
           <h2 className="text-lg p-2">Dashboard</h2>
+          <SidebarClose className="sm:hidden" />
         </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
