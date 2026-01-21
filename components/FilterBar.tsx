@@ -86,16 +86,16 @@ const FilterBar = () => {
   return (
     <div className="w-full flex flex-col md:flex-row justify-between gap-8 md:gap-4">
       <div className="flex flex-col gap-4 w-full">
-<Label>Search Waiver</Label>
-      <Input placeholder="Search waivers" value={search} onChange={(e) => {setSearch(e.target.value)}} />
+<label>Search Waiver</label>
+      <Input placeholder="Search guardian name or phone" className="focus-visible:ring-muted/50 focus-visible:border-muted/70" value={search} onChange={(e) => {setSearch(e.target.value)}} />
       </div>
       <div className="flex flex-col gap-4">
-<Label>Filter by Date</Label>
+<label>Filter by Time</label>
 <div className="flex flex-row gap-2">
 
-      <Button variant="secondary" onClick={() => shortcutDates("lastHour")}>Last Hour</Button>
-      <Button variant="secondary" onClick={() => shortcutDates("last3Hours")}>Last 3 Hours</Button>
-      <Button variant="secondary" onClick={() => shortcutDates("lastDay")}>Last Day</Button>
+      <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("lastHour")}>Last Hour</Button>
+      <Button variant="secondary" className="hidden sm:block font-normal" onClick={() => shortcutDates("last3Hours")}>Last 3 Hours</Button>
+      <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("lastDay")}>Last Day</Button>
       <Dialog>
 
       <DialogTrigger asChild>
@@ -104,21 +104,21 @@ const FilterBar = () => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-        <DialogTitle>Filter by Date</DialogTitle>
+        <DialogTitle>Filter by Time</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-4">
-            <Label>Quick Filters</Label>
+            <label>Quick Filters</label>
             <div className="flex flex-row gap-2 flex-wrap">
 
-      <Button variant="secondary" onClick={() => shortcutDates("lastHour")}>Last Hour</Button>
-      <Button variant="secondary" onClick={() => shortcutDates("last3Hours")}>Last 3 Hours</Button>
-      <Button variant="secondary" onClick={() => shortcutDates("lastDay")}>Last Day</Button>
-      <Button variant="secondary" onClick={() => shortcutDates("lastWeek")}>Last Week</Button>
+      <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("lastHour")}>Last Hour</Button>
+      <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("last3Hours")}>Last 3 Hours</Button>
+      <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("lastDay")}>Last Day</Button>
+      <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("lastWeek")}>Last Week</Button>
       </div>
           </div>
           <div className="flex flex-col gap-4">
-            <Label>Custom Date Range</Label>
+            <label>Custom Date Range</label>
             {(dateRange?.from && dateRange?.to) && dateRange?.from?.toLocaleDateString(undefined, { month: "short", day: "numeric" }) + " ~ " + dateRange?.to?.toLocaleDateString(undefined, { month: "short", day: "numeric" })}
           <Calendar
       mode="range"
