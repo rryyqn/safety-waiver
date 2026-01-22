@@ -28,7 +28,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="flex-1 w-full relative min-h-screen">
+      <main className="flex-1 w-full relative min-h-screen [scrollbar-gutter:stable]">
         <SidebarTrigger className="absolute top-2 left-2 sm:opacity-10 sm:hover:opacity-100 transition-all" />
         <div className="p-10 w-full flex flex-col gap-6 h-full">
           <h1 className="text-3xl font-bold">Waivers</h1>
@@ -36,11 +36,10 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
           
           <div className="overflow-hidden h-full relative">
           <div className="absolute right-0 top-[10px] flex flex-row justify-end gap-1 items-center text-sm">
-            <p className="hidden lg:block">{waivers.length} waivers found.</p>
             
             {(params.search || params.from || params.to) && <a href="/admin" className="underline underline-offset-4 decoration-2 decoration-input z-10">Clear Filters</a>}
           </div>
-            <div className="grid grid-cols-3 gap-4 px-4 py-2 pr-16">
+            <div className="grid grid-cols-3 gap-4 px-4 py-2 pr-12">
               <p className="font-bold">Guardian</p>
               <p className="font-bold hidden sm:block ">Phone</p>
               <p className="font-bold hidden sm:block ">Children</p>
@@ -50,7 +49,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
               <WaiversAccordion waivers={waivers} />
 
             ) : (
-              <div className="text-muted w-full h-full flex flex-col justify-center items-center"><SearchAlert className="size-10" strokeWidth={1.5} /><p>No waivers found. <a href="/admin" className="underline underline-offset-4 decoration-2 decoration-input">Clear Filters</a></p></div>)}
+              <div className="text-muted w-full h-full flex flex-col justify-center items-center text-sm gap-2"><SearchAlert className="size-8" strokeWidth={1.5} /><p>No waivers found. <a href="/admin" className="underline underline-offset-4 decoration-2 decoration-input">Clear Filters</a></p></div>)}
           </div>
         </div>
       </main>

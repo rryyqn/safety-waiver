@@ -50,6 +50,9 @@ body {
   @apply font-mulish;
 }
 
+html {
+  scrollbar-gutter: stable;
+}
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
