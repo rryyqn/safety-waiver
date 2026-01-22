@@ -2,6 +2,7 @@
 import { getChildren, getWaiverDraft } from "@/app/actions/waiver";
 import LottieAnimation from "@/components/SuccessCheck";
 import { Separator } from "@/components/ui/separator";
+import { calculateAge } from "@/lib/utils";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -26,19 +27,6 @@ const SuccessForm = ({
   waiverId: number;
   finalData: SuccessProps;
 }) => {
-  const calculateAge = (dob: Date): number => {
-    const today = new Date();
-
-    let age = today.getFullYear() - dob.getFullYear();
-    const monthDiff = today.getMonth() - dob.getMonth();
-
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-      age--;
-    }
-
-    return age;
-  };
-
   return (
     <div className="flex flex-col gap-6">
       <div className="w-full flex flex-col justify-center gap-2 items-center">

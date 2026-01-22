@@ -5,23 +5,20 @@ import { useDebounce } from "@/hooks/debounce";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "./ui/button";
 import { CalendarCogIcon } from "lucide-react";
-import { Label } from "./ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Calendar } from "./ui/calendar";
 import { DateRange } from "react-day-picker";
+import { endOfDay } from "date-fns"
 
 const FilterBar = () => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const router = useRouter();
     const [search, setSearch] = useState(searchParams.get("search") || "")
-    const [startDate, setStartDate] = useState<Date | undefined>(
-        searchParams.get("from") ? new Date(searchParams.get("from")!) : undefined
-      );
-      const [dateRange, setDateRange] = useState<DateRange | undefined>({
-        from: searchParams.get("from") ? new Date(searchParams.get("from")!) : undefined,
-        to: searchParams.get("to") ? new Date(searchParams.get("to")!) : undefined,
-      })
+    const [dateRange, setDateRange] = useState<DateRange | undefined>({
+      from: searchParams.get("from") ? new Date(searchParams.get("from")!) : undefined,
+      to: searchParams.get("to") ? new Date(searchParams.get("to")!) : undefined,
+    })
     
 
     const debouncedSearch = useDebounce(search, 300);
@@ -78,18 +75,25 @@ const FilterBar = () => {
             setDateRange({ from: lastMonth, to: now });
             break;
           default:
-            setStartDate(undefined);
+            setDateRange(undefined);
         }
     }
 
+    //helper function to set end date time at 11:59pm instead of 0:00 default. 
+    const handleDateSelect = (range: DateRange | undefined) => {
+      if (range?.to) {
+        range.to = endOfDay(range.to);
+      }
+      setDateRange(range);
+    };
     
   return (
-    <div className="w-full flex flex-col md:flex-row justify-between gap-8 md:gap-4">
-      <div className="flex flex-col gap-4 w-full min-w-66">
+    <div className="w-full flex flex-col md:flex-row justify-between gap-8 md:gap-4 text-sm">
+      <div className="flex flex-col gap-2 w-full min-w-66">
 <label>Search Waiver</label>
-      <Input placeholder="Search guardian name or phone" className="focus-visible:ring-muted/50 focus-visible:border-muted/70" value={search} onChange={(e) => {setSearch(e.target.value)}} />
+      <Input placeholder="Search guardian name or phone" className="focus-visible:ring-muted/20 text-sm focus-visible:border-muted/50" value={search} onChange={(e) => {setSearch(e.target.value)}} />
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
 <label>Filter by Time</label>
 <div className="flex flex-row gap-2">
 
@@ -123,7 +127,7 @@ const FilterBar = () => {
       mode="range"
       defaultMonth={dateRange?.from}
       selected={dateRange}
-      onSelect={setDateRange}
+      onSelect={handleDateSelect}
       numberOfMonths={1}
       className="rounded-sm w-full"
       
