@@ -85,13 +85,11 @@ const AgreementForm = ({
       risksAgreement,
       medicalAgreement,
     });
-    console.log(rulesAgreement, risksAgreement, medicalAgreement);
     if (!result.success) {
       const fieldErrors = result.error.flatten().fieldErrors;
       const errorMap = Object.fromEntries(
         Object.entries(fieldErrors).map(([key, value]) => [key, value?.[0]])
       );
-      console.log(errorMap);
       setErrors(errorMap);
       setIsSubmitting(false);
       return;

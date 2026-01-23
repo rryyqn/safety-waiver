@@ -92,7 +92,6 @@ const ChildrenForm = ({
     }));
 
     const result = childrenArraySchema.safeParse(data);
-    console.log("Result", JSON.stringify(result));
 
     if (!result.success) {
       const newErrors: Record<string, string>[] = children.map(() => ({}));
@@ -110,8 +109,6 @@ const ChildrenForm = ({
           [field]: issue.message,
         };
       });
-
-      console.log("Errors: ", newErrors);
       setErrors(newErrors as [Record<string, string>]);
       setIsSubmitting(false);
       return;
