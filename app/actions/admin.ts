@@ -31,7 +31,7 @@ export async function getFilteredWaivers(filters: {
     }
 
     // pagination
-    const pageSize = 2;
+    const pageSize = 20;
     const skip = (filters?.page ? (Math.max(filters.page, 1) - 1) * pageSize : 0);
 
     const [waivers, totalCount] = await Promise.all([
