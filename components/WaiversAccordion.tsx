@@ -7,7 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { calculateAge } from "@/lib/utils";
-import { ChevronDown, FileText, Mail, Phone, SquarePen, Trash, User2 } from "lucide-react";
+import { FileText, Mail, Phone, SquarePen, Trash, User2 } from "lucide-react";
 import { Button } from "./ui/button";
 
 type Waiver = {

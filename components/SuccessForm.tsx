@@ -1,10 +1,7 @@
 "use client";
-import { getChildren, getWaiverDraft } from "@/app/actions/waiver";
 import LottieAnimation from "@/components/SuccessCheck";
 import { Separator } from "@/components/ui/separator";
 import { calculateAge } from "@/lib/utils";
-import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
 
 type SuccessProps = {
   children: {
