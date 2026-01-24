@@ -1,5 +1,6 @@
 "use server";
 import { db } from "@/lib/d";
+import { Prisma } from "@prisma/client";
 
 export async function getAdminWaivers() {
   return await db.waiver.findMany({
@@ -19,7 +20,7 @@ export async function getFilteredWaivers(filters: {
   }) {
     // 1. Initialize an empty where clause
     // We only want to see submitted waivers
-    const where: any = {
+    const where: Prisma.WaiverWhereInput = {
       submittedAt: { not: null },
     };
   
@@ -32,7 +33,7 @@ export async function getFilteredWaivers(filters: {
   
     if (filters.startDate || filters.endDate) {
       where.submittedAt = {
-        ...where.submittedAt, // Keep the 'not: null' check
+        not: null, // Explicitly include the 'not: null' check
         ...(filters.startDate && { gte: filters.startDate }),
         ...(filters.endDate && { lte: filters.endDate }),
       };
