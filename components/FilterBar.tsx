@@ -19,9 +19,9 @@ const FilterBar = () => {
       from: searchParams.get("from") ? new Date(searchParams.get("from")!) : undefined,
       to: searchParams.get("to") ? new Date(searchParams.get("to")!) : undefined,
     })
+    const [page, setPage] = useState(Number(searchParams.get("page")));
     
-
-    const debouncedSearch = useDebounce(search, 300);
+    const debouncedSearch = useDebounce(search, 400);
 
     useEffect(() => {
         const params = new URLSearchParams(searchParams.toString());
@@ -43,11 +43,24 @@ const FilterBar = () => {
         } else {
           params.delete("to");
         }
+
+        if (page && page > 1) {
+          params.set("page", page.toString());
+        } else {
+          params.delete("page");
+        }
       
-        router.push(`${pathname}?${params.toString()}`, { scroll: false });
-      }, [debouncedSearch, dateRange, pathname, router]);
+        // Prevent push if params identical
+        const queryString = params.toString();
+        if (queryString !== searchParams.toString()) {
+          router.push(`${pathname}?${queryString}`, { scroll: false });
+        }
+
+      }, [debouncedSearch, dateRange, pathname, router, page]);
 
       const shortcutDates = (shortcut: "lastHour" | "last3Hours" | "lastDay" | "lastWeek" | "lastMonth") => {
+        setPage(1);
+
         const now = new Date();
         const oneHour = 60 * 60 * 1000;
         const oneDay = 24 * oneHour;
@@ -81,6 +94,8 @@ const FilterBar = () => {
 
     //helper function to set end date time at 11:59pm instead of 0:00 default. 
     const handleDateSelect = (range: DateRange | undefined) => {
+      setPage(1);
+
       if (range?.to) {
         range.to = endOfDay(range.to);
       }
@@ -91,7 +106,7 @@ const FilterBar = () => {
     <div className="w-full flex flex-col md:flex-row justify-between gap-8 md:gap-4 text-sm">
       <div className="flex flex-col gap-2 w-full min-w-66">
 <label>Search Waiver</label>
-      <Input placeholder="Search guardian name or phone" className="focus-visible:ring-muted/20 text-sm focus-visible:border-muted/50" value={search} onChange={(e) => {setSearch(e.target.value)}} />
+      <Input placeholder="Search guardian name or phone" className="focus-visible:ring-muted/20 text-sm focus-visible:border-muted/50" value={search} onChange={(e) => {setSearch(e.target.value); setPage(1);}} />
       </div>
       <div className="flex flex-col gap-2">
 <label>Filter by Time</label>

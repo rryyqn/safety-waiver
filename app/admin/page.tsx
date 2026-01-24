@@ -1,6 +1,7 @@
 import { getFilteredWaivers } from "@/app/actions/admin";
 import { AppSidebar } from "@/components/AppSidebar";
 import FilterBar from "@/components/FilterBar";
+import PaginationControls from "@/components/PaginationControls";
 import { Separator } from "@/components/ui/separator";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import WaiversAccordion from "@/components/WaiversAccordion";
@@ -8,7 +9,7 @@ import { SearchAlert } from "lucide-react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function AdminDashboard({ searchParams }: { searchParams: Promise<{search: string; from: string; to: string}>; }) {
+export default async function AdminDashboard({ searchParams }: { searchParams: Promise<{search: string; from: string; to: string; page: number}>; }) {
 
   const cookieStore = await cookies();
   const adminSession = cookieStore.get("admin-session")?.value;
@@ -19,10 +20,11 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
   const params = await searchParams;
 
-  const waivers = await getFilteredWaivers({
+  const { waivers, totalPages } = await getFilteredWaivers({
     search: params.search,
     startDate: params.from ? new Date(params.from) : undefined,
     endDate: params.to ? new Date(params.to) : undefined,
+    page: params.page || 1
   });
 
   return (
@@ -30,7 +32,9 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
       <AppSidebar />
       <main className="flex-1 w-full relative min-h-screen [scrollbar-gutter:stable]">
         <SidebarTrigger className="absolute top-2 left-2 sm:opacity-10 sm:hover:opacity-100 transition-all" />
-        <div className="p-10 w-full flex flex-col gap-6 h-full">
+        <div className="p-10 w-full h-full flex flex-col justify-between gap-20">
+
+        <div className="flex flex-col gap-6 h-full">
           <h1 className="text-3xl font-bold">Waivers</h1>
           <FilterBar />
           
@@ -51,6 +55,15 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
             ) : (
               <div className="text-muted w-full h-full flex flex-col justify-center items-center text-sm gap-2"><SearchAlert className="size-8" strokeWidth={1.5} /><p>No waivers found. <a href="/admin" className="underline underline-offset-4 decoration-2 decoration-input">Clear Filters</a></p></div>)}
           </div>
+        </div>
+        <div className="w-full flex justify-center">
+          {Number(params.page || 1) <= totalPages && 
+        <PaginationControls 
+        currentPage={Number(params.page) || 1} 
+        totalPages={totalPages} 
+        />
+      }
+        </div>
         </div>
       </main>
     </SidebarProvider>
