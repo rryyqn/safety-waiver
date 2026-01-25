@@ -50,10 +50,6 @@ body {
   @apply font-mulish;
 }
 
-html {
-  scrollbar-gutter: stable;
-}
-
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
@@ -114,4 +110,21 @@ html {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D0D0D0;
+  border-radius: 1000px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #A6A6A6;
 }
