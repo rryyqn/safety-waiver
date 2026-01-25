@@ -13,7 +13,7 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline: "border border-input hover:bg-muted-background",
-        secondary: "bg-secondary hover:bg-input/70",
+        secondary: "bg-accent hover:bg-input/70",
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
@@ -28,7 +28,7 @@ const buttonVariants = cva(
         icon: "size-9",
         "icon-sm": "size-8",
         "icon-lg": "size-10",
-        dashboard: "px-2 py-1 text-sm font-normal gap-1 has-[>svg]:pl-1.5"
+        dashboard: "px-3 py-2 rounded-xs text-sm font-normal gap-1.5 has-[>svg]:pl-2"
       },
     },
     defaultVariants: {
