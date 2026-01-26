@@ -17,11 +17,13 @@ datasource db {
 model Guardian {
   id       Int       @id @default(autoincrement())
   email    String    @unique
-  name     String?
+  name     String?   
   dob      DateTime?
   phone    String?
   waiver   Waiver?
-  children Child[]
+  children Child[] 
+
+  @@index([name, phone])
 }
 
 model Child {
@@ -38,6 +40,8 @@ model Waiver {
   guardian    Guardian   @relation(fields: [guardianId], references: [id])
   submittedAt DateTime? // This tells us if it's a draft
   agreement   Agreement?
+
+  @@index([submittedAt])
 }
 
 model Agreement {
