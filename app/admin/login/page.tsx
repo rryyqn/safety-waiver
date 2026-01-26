@@ -4,17 +4,21 @@ import { useState } from "react";
 import { loginAdmin } from "./actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CircleAlert } from "lucide-react";
+import { CircleAlert, LoaderCircle } from "lucide-react";
 
 export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true)
 
     if (!password) {
       setError("Password is required");
+      setIsSubmitting(false);
       return;
     }
     const res = await loginAdmin(password);
@@ -22,9 +26,10 @@ export default function LoginPage() {
     
     
     if (res.success) {
-      window.location.href = "/admin"; // Redirect to dashboard
+      window.location.href = "/admin";
     } else {
       setError(res.error || "Login failed");
+      setIsSubmitting(false)
     }
   };
 
@@ -45,7 +50,7 @@ export default function LoginPage() {
               {error}
             </p>}
           </div>
-          <Button type="submit" className="w-full">Sign In</Button>
+          <Button type="submit" className="w-full" disabled={isSubmitting}>{isSubmitting ? <LoaderCircle className="size-5 animate-spin" /> : "Sign In"}</Button>
         </form>
       </div>
     </div>
