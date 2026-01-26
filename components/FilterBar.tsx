@@ -5,7 +5,7 @@ import { useDebounce } from "@/hooks/debounce";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "./ui/button";
 import { CalendarCogIcon } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Calendar } from "./ui/calendar";
 import { DateRange } from "react-day-picker";
 import { endOfDay } from "date-fns"
@@ -20,6 +20,7 @@ const FilterBar = () => {
       to: searchParams.get("to") ? new Date(searchParams.get("to")!) : undefined,
     })
     const [page, setPage] = useState(Number(searchParams.get("page")));
+    const [preview, setPreview] = useState("");
     
     const debouncedSearch = useDebounce(search, 400);
 
@@ -74,21 +75,23 @@ const FilterBar = () => {
         switch (shortcut) {
           case "lastHour": 
           setDateRange({ from: lastHour, to: now });
+          setPreview("Last Hour")
             break;
           case "last3Hours":
           setDateRange({ from: last3Hours, to: now });
+          setPreview("Last 3 Hours")
             break;
           case "lastDay":
             setDateRange({ from: lastDay, to: now });
+            setPreview("Last Day")
             break;
           case "lastWeek":
             setDateRange({ from: lastWeek, to: now });
+            setPreview("Last Week")
             break;
-          case "lastMonth":
-            setDateRange({ from: lastMonth, to: now });
-            break;
-          default:
+            default:
             setDateRange(undefined);
+            setPreview("")
         }
     }
 
@@ -100,6 +103,7 @@ const FilterBar = () => {
         range.to = endOfDay(range.to);
       }
       setDateRange(range);
+      setPreview(`${range?.from?.toLocaleDateString(undefined, { month: "short", day: "numeric" })} - ${range?.to?.toLocaleDateString(undefined, { month: "short", day: "numeric" })}`);
     };
     
   return (
@@ -111,14 +115,17 @@ const FilterBar = () => {
       <div className="flex flex-col gap-2">
 <label>Filter by Time</label>
 <div className="flex flex-row gap-2">
-
-      <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("lastHour")}>Last Hour</Button>
-      <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("lastDay")}>Last Day</Button>
+      {preview === "" && (
+        <>
+        <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("lastHour")}>Last Hour</Button>
+        <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("lastDay")}>Last Day</Button>
+        </>
+      )}
       <Dialog>
 
       <DialogTrigger asChild>
 
-      <Button variant="secondary" className="aspect-square"><CalendarCogIcon /></Button>
+      <Button variant="secondary" className="aspect-square font-normal"><CalendarCogIcon /> {preview}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -128,16 +135,26 @@ const FilterBar = () => {
           <div className="flex flex-col gap-4">
             <label>Quick Filters</label>
             <div className="flex flex-row gap-2 flex-wrap">
-
+              
+            <DialogClose asChild>
       <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("lastHour")}>Last Hour</Button>
+      </DialogClose>
+
+      <DialogClose asChild>
       <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("last3Hours")}>Last 3 Hours</Button>
+      </DialogClose>
+
+      <DialogClose asChild>
       <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("lastDay")}>Last Day</Button>
+      </DialogClose>
+
+      <DialogClose asChild>
       <Button variant="secondary" className="font-normal" onClick={() => shortcutDates("lastWeek")}>Last Week</Button>
+      </DialogClose>
       </div>
           </div>
           <div className="flex flex-col gap-4">
             <label>Custom Date Range</label>
-            {(dateRange?.from && dateRange?.to) && dateRange?.from?.toLocaleDateString(undefined, { month: "short", day: "numeric" }) + " ~ " + dateRange?.to?.toLocaleDateString(undefined, { month: "short", day: "numeric" })}
           <Calendar
       mode="range"
       defaultMonth={dateRange?.from}
