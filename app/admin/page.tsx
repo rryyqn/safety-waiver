@@ -5,9 +5,11 @@ import PaginationControls from "@/components/PaginationControls";
 import { Separator } from "@/components/ui/separator";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import WaiversAccordion from "@/components/WaiversAccordion";
+import WaiverSkeleton from "@/components/WaiverSkeleton";
 import { SearchAlert } from "lucide-react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function AdminDashboard({ searchParams }: { searchParams: Promise<{search: string; from: string; to: string; page: number}>; }) {
 
@@ -20,12 +22,8 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
 
   const params = await searchParams;
 
-  const { waivers, totalPages } = await getFilteredWaivers({
-    search: params.search,
-    startDate: params.from ? new Date(params.from) : undefined,
-    endDate: params.to ? new Date(params.to) : undefined,
-    page: params.page || 1
-  });
+  const listKey = JSON.stringify(params);
+  const pageKey = JSON.stringify(params.page);
 
   return (
     <SidebarProvider>
@@ -49,23 +47,55 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
               <p className="font-bold hidden sm:block ">Children</p>
             </div>        
             <Separator />
-            {waivers.length > 0 ? (
-              <WaiversAccordion waivers={waivers} />
-
-            ) : (
-              <div className="text-muted w-full h-full flex flex-col justify-center items-center text-sm gap-2"><SearchAlert className="size-8" strokeWidth={1.5} /><p>No waivers found. <a href="/admin" className="underline underline-offset-4 decoration-2 decoration-input">Clear Filters</a></p></div>)}
+            <Suspense key={listKey} fallback={<WaiverSkeleton />}>
+            <WaiverList params={params} />
+            </Suspense>
           </div>
         </div>
         <div className="w-full flex justify-center">
-          {Number(params.page || 1) <= totalPages && 
-        <PaginationControls 
-        currentPage={Number(params.page) || 1} 
-        totalPages={totalPages} 
-        />
-      }
+          <Suspense key={pageKey}>
+            <WaiverPages params={params} />
+          </Suspense>
         </div>
         </div>
       </main>
     </SidebarProvider>
+  );
+}
+
+async function WaiverList({ params }: { params: {search: string; from: string; to: string; page: number} }) {
+  const { waivers } = await getFilteredWaivers({
+    search: params.search,
+    startDate: params.from ? new Date(params.from) : undefined,
+    endDate: params.to ? new Date(params.to) : undefined,
+    page: params.page || 1
+  });
+
+  if (waivers.length === 0) {
+    return (
+      <div className="text-muted w-full h-full flex flex-col justify-center items-center text-sm gap-2"><SearchAlert className="size-8" strokeWidth={1.5} /><p>No waivers found. <a href="/admin" className="underline underline-offset-4 decoration-2 decoration-input">Clear Filters</a></p></div>
+    );
+  }
+
+  return (
+    <WaiversAccordion waivers={waivers} />
+  );
+}
+
+async function WaiverPages({ params }: { params: {search: string; from: string; to: string; page: number} }) {
+  const { totalPages } = await getFilteredWaivers({
+    search: params.search,
+    startDate: params.from ? new Date(params.from) : undefined,
+    endDate: params.to ? new Date(params.to) : undefined,
+    page: params.page || 1
+  });
+
+  if (Number(params.page || 1) > totalPages) return
+
+  return (
+    <PaginationControls 
+    currentPage={Number(params.page) || 1} 
+    totalPages={totalPages} 
+    />
   );
 }
