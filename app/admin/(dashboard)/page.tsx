@@ -7,13 +7,11 @@ import WaiverSkeleton from "@/components/WaiverSkeleton";
 import { SearchAlert } from "lucide-react";
 import { Suspense } from "react";
 
-export default async function AdminDashboard({ searchParams }: { searchParams: Promise<{search: string; from: string; to: string; page: number}>; }) {
-
+export default async function AdminDashboard({ searchParams }: { searchParams: Promise<{search?: string; from?: string; to?: string; page?: string}>; }) {
   const params = await searchParams;
 
   const listKey = JSON.stringify(params);
-  const pageKey = JSON.stringify(params.page);
-
+  const pageKey = JSON.stringify(params);
   return (
     
         <div className="py-10 px-4 sm:p-10 w-full h-full flex flex-col justify-between gap-20">
@@ -49,12 +47,12 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   );
 }
 
-async function WaiverList({ params }: { params: {search: string; from: string; to: string; page: number} }) {
+async function WaiverList({ params }: { params: {search?: string; from?: string; to?: string; page?: string} }) {
   const { waivers } = await getFilteredWaivers({
     search: params.search,
     startDate: params.from ? new Date(params.from) : undefined,
     endDate: params.to ? new Date(params.to) : undefined,
-    page: params.page || 1
+    page: Number(params.page) || 1
   });
 
   if (waivers.length === 0) {
@@ -68,12 +66,12 @@ async function WaiverList({ params }: { params: {search: string; from: string; t
   );
 }
 
-async function WaiverPages({ params }: { params: {search: string; from: string; to: string; page: number} }) {
+async function WaiverPages({ params }: { params: {search?: string; from?: string; to?: string; page?: string} }) {
   const { totalPages } = await getFilteredWaivers({
     search: params.search,
     startDate: params.from ? new Date(params.from) : undefined,
     endDate: params.to ? new Date(params.to) : undefined,
-    page: params.page || 1
+    page: Number(params.page) || 1
   });
 
   if (Number(params.page || 1) > totalPages) return

@@ -141,12 +141,12 @@ export default function WaiversAccordion({ waivers }: WaiversAccordionProps) {
           )}
           <ContextMenuGroup>
             <ContextMenuLabel>Actions</ContextMenuLabel>
+            <ContextMenuItem asChild>
             <Link href={`/admin/${waiver.id}`}>
-            <ContextMenuItem>
               <FileText className="size-4" />
               See Details
-            </ContextMenuItem>
               </Link>
+            </ContextMenuItem>
             
             <ContextMenuItem>
               <Mail className="size-4" />

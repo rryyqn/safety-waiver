@@ -9,9 +9,13 @@ import { Check, Mail, Printer } from "lucide-react";
  export default async function WaiverDetailPage({ params }: { params: Promise<{ id: string }> }) {
 
     const { id } = await params;
+    const waiverId = parseInt(id);
+    if (isNaN(waiverId)) {
+      return <div>Invalid waiver ID.</div>;
+    }
     
     const waiver = await db.waiver.findUnique({
-      where: { id: parseInt(id) },
+      where: { id: waiverId },
       include: { guardian: { include: { children: true } }, agreement: true }
     });
   
@@ -35,8 +39,7 @@ import { Check, Mail, Printer } from "lucide-react";
     <div className="flex flex-col gap-4">
     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
     <h1 className="font-bold text-3xl flex items-center gap-2">Waiver #{id}</h1>
-    <p className="bg-accent rounded-xs px-2 w-fit text-muted-foreground py-0.5">Signed: {waiver.submittedAt?.toLocaleDateString()}</p>
-    </div>
+    <p className="bg-accent rounded-xs px-2 w-fit text-muted-foreground py-0.5">Signed: {waiver.submittedAt?.toLocaleDateString() ?? "N/A"}</p>    </div>
       <div className="flex flex-row gap-2">
         <Button variant="secondary" size="dashboard"><Mail /> Email Waiver</Button>
         <Button variant="secondary" size="dashboard"><Printer /> Print Waiver</Button>
@@ -74,7 +77,7 @@ import { Check, Mail, Printer } from "lucide-react";
         <div key={child.id} className="flex flex-col border-input border p-2 rounded-xs sm:flex-row justify-between">
           <p>{child.name}</p>
           <div>
-            <p className="text-muted">{child.dob?.toLocaleDateString(undefined, { dateStyle: "medium" })} (Age {calculateAge(child.dob!)})</p>
+            <p className="text-muted">{child.dob!.toLocaleDateString(undefined, { dateStyle: "medium" })} (Age {calculateAge(child.dob!)})</p>
             </div>
         </div>
       ))}
