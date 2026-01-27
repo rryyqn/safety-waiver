@@ -7,10 +7,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { calculateAge } from "@/lib/utils";
-import { ArrowUpToLine, FileText, Mail, Minus, Phone, SquareMinus, Trash, User, User2 } from "lucide-react";
+import { ArrowUpToLine, Copy, FileText, Link, Mail, Phone, Printer, User, User2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import { ContextMenu, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuTrigger } from "./ui/context-menu";
+import { ContextMenu, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from "./ui/context-menu";
 
 type Waiver = {
   guardian: {
@@ -71,7 +71,7 @@ export default function WaiversAccordion({ waivers }: WaiversAccordionProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               
               <div className="flex flex-col gap-2 border border-input rounded-xs py-3 px-4">
-                <div className="uppercase font-mono text-muted">Guardian Info</div>
+                <div className="text-xs text-muted cursor-default">Guardian Info</div>
                 <div className="flex justify-between flex-col gap-2">
                   {waiver.guardian.name && (
                       <div className="flex items-center gap-2"><User2 className="size-4 text-muted" /> {waiver.guardian.name}</div>
@@ -85,7 +85,7 @@ export default function WaiversAccordion({ waivers }: WaiversAccordionProps) {
                 </div>
               </div>
               <div className="flex flex-col gap-2 border border-input rounded-xs py-3 px-4">
-                <h3 className="uppercase font-mono text-muted">Participating Minors</h3>
+                <h3 className="text-xs text-muted cursor-default cursor-default">Participating Minors</h3>
                 <div className="flex justify-between flex-col gap-2">
                   {waiver.guardian.children.map((child, index) => (
                     <div
@@ -102,7 +102,7 @@ export default function WaiversAccordion({ waivers }: WaiversAccordionProps) {
               </div>
 
               <div className="flex flex-col gap-2 border border-input rounded-xs py-3 px-4">
-                <h3 className="uppercase font-mono text-muted">Waiver Details</h3>
+                <h3 className="text-xs text-muted cursor-default">Waiver Details</h3>
                 <div className="text-sm flex flex-col gap-2">
                   <p>
                     <span className="text-muted-foreground">Submitted:</span>{" "}
@@ -116,8 +116,8 @@ export default function WaiversAccordion({ waivers }: WaiversAccordionProps) {
                 </div>
                   <div className="flex flex-row w-full mb-1.5 gap-2 pt-2 flex-wrap">
 
-                  <Button variant="secondary" size="dashboard"><FileText className="size-4" strokeWidth={1.5} />Details</Button>
-                  <Button variant="secondary" size="dashboard" className="bg-destructive/4 text-red-800"><Trash className="size-4" strokeWidth={1.5} />Delete</Button>
+                  <Button variant="secondary" size="dashboard"><FileText className="size-4"  />Details</Button>
+                  <Button variant="secondary" size="dashboard"><Printer className="size-4" />Print</Button>
                   </div>
               </div>
             </div>
@@ -138,27 +138,28 @@ export default function WaiversAccordion({ waivers }: WaiversAccordionProps) {
           <ContextMenuSeparator /></>
           )}
           <ContextMenuGroup>
-            <ContextMenuLabel>Info</ContextMenuLabel>
-            <ContextMenuItem onClick={() =>copyTextToClipboard(waiver.guardian.name!)}>
-            <User className="size-4" />
-
-      Copy Name
-    </ContextMenuItem>
-            <ContextMenuItem onClick={() =>copyTextToClipboard(waiver.guardian.phone!)}>
-            <Phone className="size-4" />
-      Copy Phone
-    </ContextMenuItem>
-          </ContextMenuGroup>
-          <ContextMenuSeparator />
-          <ContextMenuGroup>
             <ContextMenuLabel>Actions</ContextMenuLabel>
+            <ContextMenuSub>
+              <ContextMenuSubTrigger className="gap-2">
+                <Copy className="size-4" />
+                Copy Info
+              </ContextMenuSubTrigger>
+              <ContextMenuSubContent>
+
+              <ContextMenuItem onClick={() =>copyTextToClipboard(waiver.guardian.name!)}>
+              <User className="size-4" />
+              Name</ContextMenuItem>
+              <ContextMenuItem onClick={() =>copyTextToClipboard(waiver.guardian.phone!)}><Phone className="size-4" />Phone</ContextMenuItem>
+              <ContextMenuItem onClick={() =>copyTextToClipboard(window.location.host + `/admin/${waiver.id}`)}><Link className="size-4" />Waiver Link</ContextMenuItem>
+              </ContextMenuSubContent>
+            </ContextMenuSub>
             <ContextMenuItem>
               <FileText className="size-4" />
-              View Details
+              See Details
             </ContextMenuItem>
-            <ContextMenuItem variant="destructive">
-              <Trash className="size-4" />
-              Delete Waiver
+            <ContextMenuItem>
+              <Printer className="size-4" />
+              Print Waiver
             </ContextMenuItem>
           </ContextMenuGroup>
   </ContextMenuContent>

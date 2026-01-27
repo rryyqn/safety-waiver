@@ -1,4 +1,4 @@
-import { Calendar, FileText, Heart, HeartPulse, Home,  Search, Settings, X } from "lucide-react"
+import { FileText, Heart, Settings } from "lucide-react"
 
 import {
   Sidebar,
@@ -10,21 +10,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
 } from "@/components/ui/sidebar"
 
 // Menu items.
 const items = [
-  {
-    title: "Home",
-    url: "#",
-    icon: Home,
-  },
-  {
-    title: "Bookings",
-    url: "#",
-    icon: Calendar,
-  },
   {
     title: "Waivers",
     url: "#",
