@@ -1,24 +1,13 @@
 import { getFilteredWaivers } from "@/app/actions/admin";
-import { AppSidebar } from "@/components/AppSidebar";
 import FilterBar from "@/components/FilterBar";
 import PaginationControls from "@/components/PaginationControls";
 import { Separator } from "@/components/ui/separator";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import WaiversAccordion from "@/components/WaiversAccordion";
 import WaiverSkeleton from "@/components/WaiverSkeleton";
 import { SearchAlert } from "lucide-react";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export default async function AdminDashboard({ searchParams }: { searchParams: Promise<{search: string; from: string; to: string; page: number}>; }) {
-
-  const cookieStore = await cookies();
-  const adminSession = cookieStore.get("admin-session")?.value;
-
-  if (adminSession !== process.env.ADMIN_PASSWORD) {
-    redirect("/admin/login");
-  }
 
   const params = await searchParams;
 
@@ -26,15 +15,14 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
   const pageKey = JSON.stringify(params.page);
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main className="flex-1 w-full relative min-h-screen [scrollbar-gutter:stable]">
-        <SidebarTrigger className="absolute top-2 left-2 sm:opacity-10 sm:hover:opacity-100 transition-all" />
-        <div className="p-10 w-full h-full flex flex-col justify-between gap-20">
+    
+        <div className="py-10 px-4 sm:p-10 w-full h-full flex flex-col justify-between gap-20">
 
-        <div className="flex flex-col gap-6 h-full">
+        <div className="flex flex-col gap-12 h-full">
+          <div className="flex flex-col gap-8 sm:gap-6">
           <h1 className="text-3xl font-bold">Waivers</h1>
           <FilterBar />
+          </div>
           
           <div className="overflow-hidden h-full relative">
           <div className="absolute right-0 top-[10px] flex flex-row justify-end gap-1 items-center text-sm">
@@ -44,7 +32,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
             <div className="grid grid-cols-3 gap-4 px-4 py-2 pr-12">
               <p className="font-bold">Guardian</p>
               <p className="font-bold hidden sm:block ">Phone</p>
-              <p className="font-bold hidden sm:block ">Children</p>
+              <p className="font-bold hidden sm:block ">No. of Children</p>
             </div>        
             <Separator />
             <Suspense key={listKey} fallback={<WaiverSkeleton />}>
@@ -58,8 +46,6 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
           </Suspense>
         </div>
         </div>
-      </main>
-    </SidebarProvider>
   );
 }
 
