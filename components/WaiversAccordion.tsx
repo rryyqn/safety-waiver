@@ -7,10 +7,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { calculateAge } from "@/lib/utils";
-import { ArrowUpToLine, Copy, FileText, Link, Mail, Phone, Printer, User, User2 } from "lucide-react";
+import { ArrowUpToLine, Copy, FileText, Hash, LinkIcon, Mail, Phone, Printer, User, User2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useState } from "react";
 import { ContextMenu, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger, ContextMenuTrigger } from "./ui/context-menu";
+import Link from "next/link";
 
 type Waiver = {
   guardian: {
@@ -62,8 +63,7 @@ export default function WaiversAccordion({ waivers }: WaiversAccordionProps) {
               <p>{waiver.guardian.name}</p>
               <p className="sm:block hidden">{waiver.guardian.phone}</p>
               <p className="sm:block hidden">
-                {waiver.guardian.children.length} {
-                  waiver.guardian.children.length === 1 ? "child" : "children"}
+                {waiver.guardian.children.length}
               </p>
             </div>
           </AccordionTrigger>
@@ -74,23 +74,23 @@ export default function WaiversAccordion({ waivers }: WaiversAccordionProps) {
                 <div className="text-xs text-muted cursor-default">Guardian Info</div>
                 <div className="flex justify-between flex-col gap-2">
                   {waiver.guardian.name && (
-                      <div className="flex items-center gap-2"><User2 className="size-4 text-muted" /> {waiver.guardian.name}</div>
+                      <div className="flex items-center gap-4"><User2 className="size-4 text-muted" /> {waiver.guardian.name}</div>
                   )}
                   {waiver.guardian.phone && (
-                      <div className="flex items-center gap-2"><Phone className="size-4 text-muted" /> {waiver.guardian.phone}</div>
+                      <div className="flex items-center gap-4"><Phone className="size-4 text-muted" /> {waiver.guardian.phone}</div>
                   )}
                   {waiver.guardian.email && (
-                      <div className="flex items-center gap-2"><Mail className="size-4 text-muted" /> {waiver.guardian.email}</div>
+                      <div className="flex items-center gap-4"><Mail className="size-4 text-muted" /> {waiver.guardian.email}</div>
                   )}
                 </div>
               </div>
               <div className="flex flex-col gap-2 border border-input rounded-xs py-3 px-4">
-                <h3 className="text-xs text-muted cursor-default cursor-default">Participating Minors</h3>
+                <h3 className="text-xs text-muted cursor-default">Participating Minors</h3>
                 <div className="flex justify-between flex-col gap-2">
                   {waiver.guardian.children.map((child, index) => (
                     <div
                       key={index}
-                      className="flex gap-2 text-sm pl-2 border-l-2 items-center"
+                      className="flex gap-2 text-sm pl-3 border-l-2 items-center"
                     >
                       <span className="">{child.name}</span>
                       <span className="text-muted-foreground text-xs" title={child.dob?.toLocaleDateString()}>
@@ -114,9 +114,11 @@ export default function WaiversAccordion({ waivers }: WaiversAccordionProps) {
                   </p>
                   <p className="flex flex-row gap-1 items-center">Status:  <span className="bg-green-100/70 px-1.5 text-green-800 rounded-xs">Valid</span></p>
                 </div>
-                  <div className="flex flex-row w-full mb-1.5 gap-2 pt-2 flex-wrap">
-
-                  <Button variant="secondary" size="dashboard"><FileText className="size-4"  />Details</Button>
+                  <div className="flex flex-row w-full gap-2 pt-2 flex-wrap">
+                  <Link href={`/admin/${waiver.id}`}>
+                  <Button variant="secondary" size="dashboard"><FileText className="size-4" />Details</Button>
+                  </Link>
+                  <Button variant="secondary" size="dashboard"><Mail className="size-4" />Email</Button>
                   <Button variant="secondary" size="dashboard"><Printer className="size-4" />Print</Button>
                   </div>
               </div>
@@ -139,6 +141,21 @@ export default function WaiversAccordion({ waivers }: WaiversAccordionProps) {
           )}
           <ContextMenuGroup>
             <ContextMenuLabel>Actions</ContextMenuLabel>
+            <ContextMenuItem asChild>
+            <Link href={`/admin/${waiver.id}`}>
+              <FileText className="size-4" />
+              See Details
+              </Link>
+            </ContextMenuItem>
+            
+            <ContextMenuItem>
+              <Mail className="size-4" />
+              Email Waiver
+            </ContextMenuItem>
+            <ContextMenuItem>
+              <Printer className="size-4" />
+              Print Waiver
+            </ContextMenuItem>
             <ContextMenuSub>
               <ContextMenuSubTrigger className="gap-2">
                 <Copy className="size-4" />
@@ -150,17 +167,10 @@ export default function WaiversAccordion({ waivers }: WaiversAccordionProps) {
               <User className="size-4" />
               Name</ContextMenuItem>
               <ContextMenuItem onClick={() =>copyTextToClipboard(waiver.guardian.phone!)}><Phone className="size-4" />Phone</ContextMenuItem>
-              <ContextMenuItem onClick={() =>copyTextToClipboard(window.location.host + `/admin/${waiver.id}`)}><Link className="size-4" />Waiver Link</ContextMenuItem>
+              <ContextMenuItem onClick={() =>copyTextToClipboard(waiver.id.toString())}><Hash className="size-4" />Waiver ID</ContextMenuItem>
+              <ContextMenuItem onClick={() =>copyTextToClipboard(window.location.host + `/admin/${waiver.id}`)}><LinkIcon className="size-4" />Waiver Link</ContextMenuItem>
               </ContextMenuSubContent>
             </ContextMenuSub>
-            <ContextMenuItem>
-              <FileText className="size-4" />
-              See Details
-            </ContextMenuItem>
-            <ContextMenuItem>
-              <Printer className="size-4" />
-              Print Waiver
-            </ContextMenuItem>
           </ContextMenuGroup>
   </ContextMenuContent>
         </ContextMenu>

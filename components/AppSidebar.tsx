@@ -16,17 +16,17 @@ import {
 const items = [
   {
     title: "Waivers",
-    url: "#",
+    url: "/admin",
     icon: FileText,
   },
   {
     title: "Injury Reports",
-    url: "#",
+    url: "/admin",
     icon: Heart,
   },
   {
     title: "Settings",
-    url: "#",
+    url: "/admin",
     icon: Settings,
   },
 ]

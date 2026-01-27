@@ -4,7 +4,7 @@ import { Input } from "./ui/input"
 import { useDebounce } from "@/hooks/debounce";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "./ui/button";
-import { CalendarCogIcon } from "lucide-react";
+import { CalendarCogIcon, CalendarIcon, Search } from "lucide-react";
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Calendar } from "./ui/calendar";
 import { DateRange } from "react-day-picker";
@@ -70,7 +70,6 @@ const FilterBar = () => {
         const last3Hours = new Date(now.getTime() - 3 * oneHour);
         const lastDay = new Date(now.getTime() - oneDay);
         const lastWeek = new Date(now.getTime() - 7 * oneDay);
-        const lastMonth = new Date(now.getTime() - 30 * oneDay);
 
         switch (shortcut) {
           case "lastHour": 
@@ -109,11 +108,11 @@ const FilterBar = () => {
   return (
     <div className="w-full flex flex-col md:flex-row justify-between gap-8 md:gap-4 text-sm">
       <div className="flex flex-col gap-2 w-full min-w-66">
-<label>Search Waiver</label>
+<label className="flex flex-row gap-1 items-center"><Search className="size-4 text-muted" />Search Waiver</label>
       <Input placeholder="Search guardian name or phone" className="focus-visible:ring-muted/20 text-sm focus-visible:border-muted/50" value={search} onChange={(e) => {setSearch(e.target.value); setPage(1);}} />
       </div>
       <div className="flex flex-col gap-2">
-<label>Filter by Time</label>
+<label className="flex flex-row gap-1 items-center"><CalendarIcon className="size-4 text-muted" />Filter by Time</label>
 <div className="flex flex-row gap-2">
       {preview === "" && (
         <>
