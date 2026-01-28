@@ -28,8 +28,8 @@ const buttonVariants = cva(
         icon: "size-9",
         "icon-sm": "size-8",
         "icon-lg": "size-10",
-        dashboard: "px-3.5 py-2.5 rounded-xs text-sm font-normal gap-2 has-[>svg]:pl-2.5 focus-visible:ring-muted/30 focus-visible:ring-3 focus-visible:outline-muted/50 focus-visible:outline-1",
-        custom: ""
+        dashboard: "px-3.5 py-2.5 rounded-xs text-sm font-normal gap-2 has-[>svg]:pl-2.5 focus-visible:ring-muted/30 focus-visible:ring-3",
+        custom: "focus-visible:ring-muted/30 focus-visible:ring-3"
       },
     },
     defaultVariants: {
