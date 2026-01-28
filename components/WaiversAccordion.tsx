@@ -59,10 +59,10 @@ export default function WaiversAccordion({ waivers }: WaiversAccordionProps) {
   <ContextMenuTrigger asChild>
         <AccordionItem key={waiver.id} value={waiver.id.toString()} className="border-b border-input">
           <AccordionTrigger className="px-4 py-3 hover:no-underline [&[data-state=open]>svg]:rotate-180 transition-all">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full items-center text-left">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 w-full items-center text-left">
               <p>{waiver.guardian.name}</p>
               <p className="sm:block hidden">{waiver.guardian.phone}</p>
-              <p className="sm:block hidden">
+              <p className="md:block hidden">
                 {waiver.guardian.children.length}
               </p>
             </div>

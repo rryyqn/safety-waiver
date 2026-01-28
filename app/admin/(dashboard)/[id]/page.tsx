@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { db } from "@/lib/d";
 import { calculateAge } from "@/lib/utils";
-import { Check, Mail, Printer } from "lucide-react";
+import { ArrowLeft, Check, Mail, Printer, SearchAlert } from "lucide-react";
+import Link from "next/link";
 
 
  export default async function WaiverDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -11,7 +12,7 @@ import { Check, Mail, Printer } from "lucide-react";
     const { id } = await params;
     const waiverId = parseInt(id);
     if (isNaN(waiverId)) {
-      return <div>Invalid waiver ID.</div>;
+      return <div className="w-full h-full flex flex-col justify-center items-center text-sm gap-2"><SearchAlert className="size-12 text-muted " strokeWidth={1.5} /><p className="text-muted pb-0.5">Invalid waiver ID: <span className="font-bold">{id}</span></p><Button variant="secondary" size="dashboard" asChild><Link href="/admin" className=""><ArrowLeft className="size-4" />Back to All Waivers</Link></Button></div>;
     }
     
     const waiver = await db.waiver.findUnique({
@@ -19,7 +20,7 @@ import { Check, Mail, Printer } from "lucide-react";
       include: { guardian: { include: { children: true } }, agreement: true }
     });
   
-    if (!waiver) return <div>Waiver not found.</div>;
+    if (!waiver) return <div className="w-full h-full flex flex-col justify-center items-center text-sm gap-2"><SearchAlert className="size-12 text-muted " strokeWidth={1.5} /><p className="text-muted pb-0.5">Waiver not found, ID: <span className="font-bold">{id}</span></p><Button variant="secondary" size="dashboard" asChild><Link href="/admin" className=""><ArrowLeft className="size-4" />Back to All Waivers</Link></Button></div>;
   
     return (
       <div className="py-10 px-4 sm:p-10 w-full h-full flex flex-col gap-8 text-sm">
