@@ -16,10 +16,26 @@ export async function getFilteredWaivers(filters: {
     };
     
     if (filters.search) {
-      where.OR = [
-        { guardian: { name: { contains: filters.search, mode: 'insensitive' } } },
-        { guardian: { phone: { contains: filters.search } } },
+      const search = filters.search.trim();
+      const searchAsNumber = Number(search);
+      const isNumeric = !isNaN(searchAsNumber);
+    
+      // Initialize an empty OR array
+      const orConditions: Prisma.WaiverWhereInput[] = [
+        { guardian: { name: { contains: search, mode: 'insensitive' } } }
       ];
+    
+      // ID Search
+      if (isNumeric) {
+        orConditions.push({ id: { equals: searchAsNumber } });
+      }
+    
+      // Phone Search
+      if (search.length >= 4) {
+        orConditions.push({ guardian: { phone: { contains: search } } });
+      }
+    
+      where.OR = orConditions;
     }
     
     if (filters.startDate || filters.endDate) {

@@ -59,7 +59,7 @@ const FilterBar = () => {
 
       }, [debouncedSearch, dateRange, pathname, router, page]);
 
-      const shortcutDates = (shortcut: "lastHour" | "last3Hours" | "lastDay" | "lastWeek" | "lastMonth") => {
+      const shortcutDates = (shortcut: "lastHour" | "last3Hours" | "lastDay" | "lastWeek") => {
         setPage(1);
 
         const now = new Date();
@@ -109,7 +109,7 @@ const FilterBar = () => {
     <div className="w-full flex flex-col md:flex-row justify-between gap-8 md:gap-4 text-sm">
       <div className="flex flex-col gap-2 w-full min-w-66">
 <label className="flex flex-row gap-1 items-center"><Search className="size-4 text-muted" />Search Waiver</label>
-      <Input placeholder="Search guardian name or phone" className="focus-visible:ring-muted/20 text-sm focus-visible:border-muted/50" value={search} onChange={(e) => {setSearch(e.target.value); setPage(1);}} />
+      <Input placeholder="Search name, phone, or ID" className="focus-visible:ring-muted/20 text-sm focus-visible:border-muted/50" value={search} onChange={(e) => {setSearch(e.target.value); setPage(1);}} />
       </div>
       <div className="flex flex-col gap-2">
 <label className="flex flex-row gap-1 items-center"><CalendarIcon className="size-4 text-muted" />Filter by Time</label>
