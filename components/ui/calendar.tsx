@@ -91,7 +91,7 @@ function Calendar({
         table: "w-full border-collapse",
         weekdays: cn("flex", defaultClassNames.weekdays),
         weekday: cn(
-          "text-muted-foreground rounded-sm flex-1 font-normal text-[0.8rem] select-none",
+          "text-muted-foreground rounded-xs flex-1 font-normal text-[0.8rem] select-none",
           defaultClassNames.weekday
         ),
         week: cn("flex w-full mt-1", defaultClassNames.week),
@@ -104,20 +104,20 @@ function Calendar({
           defaultClassNames.week_number
         ),
         day: cn(
-          "relative w-full h-full p-0 text-center [&:last-child[data-selected=true]_button]:rounded-r-sm group/day aspect-square select-none",
+          "relative w-full h-full p-0 text-center [&:last-child[data-selected=true]_button]:rounded-r-xs group/day aspect-square select-none",
           props.showWeekNumber
-            ? "[&:nth-child(2)[data-selected=true]_button]:rounded-l-sm"
-            : "[&:first-child[data-selected=true]_button]:rounded-l-sm",
+            ? "[&:nth-child(2)[data-selected=true]_button]:rounded-l-xs"
+            : "[&:first-child[data-selected=true]_button]:rounded-l-xs",
           defaultClassNames.day
         ),
         range_start: cn(
-          "rounded-l-sm bg-accent",
+          "rounded-l-xs bg-accent",
           defaultClassNames.range_start
         ),
         range_middle: cn("rounded-none", defaultClassNames.range_middle),
-        range_end: cn("rounded-r-sm bg-accent", defaultClassNames.range_end),
+        range_end: cn("rounded-r-xs bg-accent", defaultClassNames.range_end),
         today: cn(
-          "border-input border text-accent-foreground rounded-sm data-[selected=true]:rounded-none",
+          "border-input border text-accent-foreground rounded-xs data-[selected=true]:rounded-none",
           defaultClassNames.today
         ),
         outside: cn(
@@ -208,7 +208,7 @@ function CalendarDayButton({
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        "data-[selected-single=true]:bg-secondary data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-muted/10 data-[range-end=true]:bg-muted/10 group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/40 flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[2px] data-[range-end=true]:rounded-sm data-[range-end=true]:rounded-r-sm data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-sm data-[range-start=true]:rounded-l-sm [&>span]:text-xs [&>span]:opacity-70",
+        "data-[selected-single=true]:bg-secondary data-[range-middle=true]:bg-accent/50 data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-accent data-[range-end=true]:bg-accent group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/20 flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 leading-none font-normal group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[2px] data-[range-end=true]:rounded-xs data-[range-end=true]:rounded-r-xs data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-xs data-[range-start=true]:rounded-l-xs [&>span]:text-xs [&>span]:opacity-70",
         defaultClassNames.day,
         className
       )}

@@ -6,43 +6,64 @@ export async function getFilteredWaivers(filters: {
     search?: string;
     startDate?: Date;
     endDate?: Date;
+    range?: string;
     page?: number;
   }) {
-    
-    
-    // Initial where clause (gets submitted waivers)
+    // Initial where clause
     const where: Prisma.WaiverWhereInput = {
       submittedAt: { not: null },
     };
     
+    // --- START: Range Logic ---
+    let finalStartDate = filters.startDate;
+    let finalEndDate = filters.endDate;
+
+    if (filters.range && !filters.startDate && !filters.endDate) {
+      const now = new Date();
+      finalEndDate = now;
+      
+      switch (filters.range) {
+        case "lastHour":
+          finalStartDate = new Date(now.getTime() - 60 * 60 * 1000);
+          break;
+        case "last3Hours":
+          finalStartDate = new Date(now.getTime() - 3 * 60 * 60 * 1000);
+          break;
+        case "lastDay":
+          finalStartDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+          break;
+        case "lastWeek":
+          finalStartDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+          break;
+      }
+    }
+
     if (filters.search) {
       const search = filters.search.trim();
       const searchAsNumber = Number(search);
       const isNumeric = !isNaN(searchAsNumber);
     
-      // Initialize an empty OR array
       const orConditions: Prisma.WaiverWhereInput[] = [
         { guardian: { name: { contains: search, mode: 'insensitive' } } }
       ];
     
-      // ID Search
       if (isNumeric) {
         orConditions.push({ id: { equals: searchAsNumber } });
       }
     
-      // Phone Search
       if (search.length >= 4) {
         orConditions.push({ guardian: { phone: { contains: search } } });
       }
     
       where.OR = orConditions;
     }
-    
-    if (filters.startDate || filters.endDate) {
+
+    // Updated to use the calculated 'final' dates
+    if (finalStartDate || finalEndDate) {
       where.submittedAt = {
-        not: null, // Explicitly include the 'not: null' check
-        ...(filters.startDate && { gte: filters.startDate }),
-        ...(filters.endDate && { lte: filters.endDate }),
+        not: null,
+        ...(finalStartDate && { gte: finalStartDate }),
+        ...(finalEndDate && { lte: finalEndDate }),
       };
     }
 
