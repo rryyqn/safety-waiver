@@ -15,7 +15,7 @@ const layout = async ({ children }: { children: React.ReactNode }) => {
     <SidebarProvider>
       <AppSidebar />
       <main className="flex-1 w-full relative min-h-screen">
-        <SidebarTrigger className="absolute top-2 left-2 sm:opacity-10 sm:hover:opacity-100 transition-all" />
+        <SidebarTrigger className="absolute top-2 left-2 sm:opacity-10 sm:hover:opacity-100 transition-all focus-visible:ring-3 focus-visible:ring-muted/30 focus-visible:opacity-100" />
         {children}
     </main>
     </SidebarProvider>

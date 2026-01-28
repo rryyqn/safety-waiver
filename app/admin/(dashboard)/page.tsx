@@ -24,7 +24,7 @@ export default async function AdminDashboard({ searchParams }: { searchParams: P
           <FilterBar />
           </div>
           
-          <div className="overflow-hidden h-full relative">
+          <div className="h-full relative">
           <div className="absolute right-0 top-0 flex flex-row justify-end gap-1 items-center text-sm">
             
             {(params.search || params.from || params.to || params.range) && <Button variant="secondary" size="dashboard" asChild><Link href="/admin" className=""><CircleX className="size-4" />Clear Filters</Link></Button>}

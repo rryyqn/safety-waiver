@@ -115,9 +115,11 @@ export default function WaiversAccordion({ waivers }: WaiversAccordionProps) {
                   <p className="flex flex-row gap-1 items-center">Status:  <span className="bg-green-100/70 px-1.5 text-green-800 rounded-xs">Valid</span></p>
                 </div>
                   <div className="flex flex-row w-full gap-2 pt-2 flex-wrap">
+                  <Button variant="secondary" size="dashboard" asChild>
                   <Link href={`/admin/${waiver.id}`}>
-                  <Button variant="secondary" size="dashboard"><FileText className="size-4" />Details</Button>
+                    <FileText className="size-4" />Details
                   </Link>
+                    </Button>
                   <Button variant="secondary" size="dashboard"><Mail className="size-4" />Email</Button>
                   <Button variant="secondary" size="dashboard"><Printer className="size-4" />Print</Button>
                   </div>

@@ -4,12 +4,11 @@ import { Input } from "./ui/input"
 import { useDebounce } from "@/hooks/debounce";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "./ui/button";
-import { CalendarCogIcon, CalendarIcon, CircleX, Search } from "lucide-react";
+import { CalendarCogIcon, CalendarIcon, Search } from "lucide-react";
 import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Calendar } from "./ui/calendar";
 import { DateRange } from "react-day-picker";
 import { endOfDay } from "date-fns"
-import Link from "next/link";
 
 const FilterBar = () => {
     const pathname = usePathname();
@@ -97,7 +96,7 @@ const FilterBar = () => {
                 <label className="flex flex-row gap-1 items-center"><Search className="size-4 text-muted" />Search Waiver</label>
                 <Input 
                     placeholder="Search name, phone, or ID" 
-                    className="focus-visible:ring-muted/20 text-sm focus-visible:border-muted/50 h-10" 
+                    className="focus-visible:ring-muted/30 focus-visible:ring-3 text-sm focus-visible:border-muted/50 h-10" 
                     value={search} 
                     onChange={(e) => { setSearch(e.target.value); setPage(1); }} 
                 />
