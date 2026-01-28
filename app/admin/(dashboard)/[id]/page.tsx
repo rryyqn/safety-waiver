@@ -21,6 +21,8 @@ import Link from "next/link";
     });
   
     if (!waiver) return <div className="w-full h-full flex flex-col justify-center items-center text-sm gap-2"><SearchAlert className="size-12 text-muted " strokeWidth={1.5} /><p className="text-muted pb-0.5">Waiver not found, ID: <span className="font-bold">{id}</span></p><Button variant="secondary" size="dashboard" asChild><Link href="/admin" className=""><ArrowLeft className="size-4" />Back to All Waivers</Link></Button></div>;
+    
+    if (!waiver.submittedAt) return <div className="w-full h-full flex flex-col justify-center items-center text-sm gap-2"><SearchAlert className="size-12 text-muted " strokeWidth={1.5} /><p className="text-muted pb-0.5">Waiver incomplete, ID: <span className="font-bold">{id}</span></p><Button variant="secondary" size="dashboard" asChild><Link href="/admin" className=""><ArrowLeft className="size-4" />Back to All Waivers</Link></Button></div>;
   
     return (
       <div className="py-10 px-4 sm:p-10 w-full h-full flex flex-col gap-8 text-sm">
