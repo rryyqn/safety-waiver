@@ -2,6 +2,7 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import { Button } from './ui/button';
 
 const PaginationControls = ({currentPage, totalPages}: {currentPage: number, totalPages: number}) => {
     const searchParams = useSearchParams();
@@ -28,9 +29,9 @@ const PaginationControls = ({currentPage, totalPages}: {currentPage: number, tot
     
   return (
     <div className='flex items-center'>
-      {currentPage > 1 ? <button onClick={prevPage} className="cursor-pointer p-2" aria-label='Previous Page'><ChevronLeft className='text-muted size-6' strokeWidth={1} /></button> : <div className='w-10 h-10' />}
-      <div className='text-muted text-sm -mx-2 -mt-[1.6px]'>{Math.max(1, currentPage)} / {totalPages}</div>
-      {currentPage < totalPages ? <button onClick={nextPage} className="cursor-pointer p-2" aria-label='Next Page'><ChevronRight className='text-muted size-6' strokeWidth={1} /></button> : <div className='w-10 h-10' />}
+      {currentPage > 1 ? <Button onClick={prevPage} variant="ghost" className="text-muted cursor-pointer h-7 w-7 hover:bg-accent hover:text-muted-foreground focus-visible:ring-muted/30 focus-visible:ring-3" aria-label='Previous Page'><ChevronLeft className='size-6' strokeWidth={1} /></Button> : <div className='w-7 h-7' />}
+      <div className='text-muted mx-1 text-sm -mt-[1.6px]'>{Math.max(1, currentPage)} / {totalPages}</div>
+      {currentPage < totalPages ? <Button onClick={nextPage} variant="ghost" className="text-muted cursor-pointer h-7 w-7 hover:bg-accent hover:text-muted-foreground focus-visible:ring-muted/30 focus-visible:ring-3" aria-label='Next Page'><ChevronRight className='size-6' strokeWidth={1} /></Button> : <div className='w-7 h-7' />}
     </div>
   )
 }
