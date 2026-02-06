@@ -71,7 +71,7 @@ export default function EmailForm() {
             </h1>
             <p className="text-muted-foreground">
               {isEdit
-                ? "Edit your existing waiver with your email address"
+                ? "Edit your existing waiver"
                 : "The safety waiver is required for all participants"}
             </p>
           </div>
