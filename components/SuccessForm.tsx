@@ -25,11 +25,12 @@ const SuccessForm = ({
   finalData: SuccessProps;
 }) => {
   return (
-    <div className="flex flex-col gap-6">
+
+    <div className="flex flex-col gap-6 mt-20 sm:mt-0">
       <div className="w-full flex flex-col justify-center gap-2 items-center">
         <LottieAnimation />
-        <h1 className="text-3xl font-extrabold">Waiver complete!</h1>
-        <p className="text-muted-foreground">
+        <h1 className="text-3xl font-extrabold text-center">Waiver complete!</h1>
+        <p className="text-muted-foreground text-center">
           Please show this screen to our staff members at the reception desk.
         </p>
       </div>
@@ -60,8 +61,9 @@ const SuccessForm = ({
           <p>Error, could not find waiver</p>
         )}
       </div>
-      <p>You may close this page.</p>
+      <p className="text-muted text-center">You may close this page.</p>
     </div>
+
   );
 };
 
