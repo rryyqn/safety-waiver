@@ -26,7 +26,7 @@ export function WaiverStepper({
         return (
           <Fragment key={step.name}>
             {/* Step Circle & Label */}
-            <div className="flex items-center gap-2 flex-col h-fit w-16 z-10">
+            <div className="flex items-center gap-2 flex-col h-fit w-13 z-10">
               <div
                 className={cn(
                   "size-10 rounded-full flex items-center justify-center border transition-colors bg-background",

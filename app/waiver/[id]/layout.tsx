@@ -17,8 +17,8 @@ export default function WaiverLayout({
     return 0;
   };
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <main className="w-full max-w-150 mx-auto flex items-center px-8 flex-col gap-10 justify-center bg-background rounded-sm py-10 shadow-[0px_0px_5px_-1px_#00000024]">
+    <div className="min-h-screen flex flex-col items-center justify-center sm:p-4">
+      <main className="w-full min-h-screen sm:min-h-fit max-w-150 mx-auto flex items-center px-6 sm:px-8 flex-col gap-10 justify-start bg-background rounded-sm pt-10 pb-20 sm:pb-10 shadow-[0px_0px_5px_-1px_#00000024]">
         {!isSuccessPage && <WaiverStepper currentStepIndex={getStepIndex()} />}
         <div className="w-full">{children}</div>
       </main>

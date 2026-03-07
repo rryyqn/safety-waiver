@@ -41,7 +41,7 @@ const ChildrenForm = ({
 
   const [formError, setFormError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<[Record<string, string>]>([{}]);
+  const [errors, setErrors] = useState<[Record<string, string | undefined>]>([{}]);
   const [arrayError, setArrayError] = useState<string | null>(null);
 
   const [children, setChildren] = useState<
@@ -60,10 +60,7 @@ const ChildrenForm = ({
       { guardianId, id: Date.now(), name: "", dob: undefined },
     ]);
 
-    if (arrayError === "At least one child is required") {
-      setArrayError(null);
-    } else {
-    }
+    setArrayError(null);
   };
 
   const removeChild = (e: React.FormEvent, index: number) => {
@@ -78,6 +75,12 @@ const ChildrenForm = ({
     const newChildren = [...children]; // 1. Copy the array
     newChildren[index] = { ...newChildren[index], [field]: value }; // 2. Update the specific object
     setChildren(newChildren); // 3. Save it back to state
+
+    setErrors((prev) => {
+      const newErrors = [...prev];
+      newErrors[index] = { ...newErrors[index], [field]: undefined };
+      return newErrors as [Record<string, string>];
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -139,19 +142,19 @@ const ChildrenForm = ({
             {children.map((child, index) => (
               <div
                 key={index}
-                className="flex flex-col gap-6 p-6 bg-muted-background rounded-sm"
+                className="flex flex-col gap-6 p-6 bg-muted-background rounded-sm border border-input"
               >
                 <div className="flex justify-between items-center">
                   <div className="flex flex-row items-center gap-3">
                     <div className="p-2 rounded-sm bg-primary/10 text-primary w-fit">
                       <User className="size-5" />
                     </div>
-                    <h3 className="text-lg">Child {index + 1}</h3>
+                    <h3 className="font-extrabold text-xl">Child {index + 1}</h3>
                   </div>
 
                   <Button
                     onClick={(e) => removeChild(e, index)}
-                    className="p-2 w-9 h-9 rounded-sm hover:bg-destructive/10 text-destructive cursor-pointer transition-all bg-transparent"
+                    className="p-2 w-9 h-9 rounded-sm hover:bg-destructive/10 text-destructive/50 cursor-pointer transition-all bg-transparent"
                     title="Remove Child"
                     aria-label="Remove Child"
                   >
@@ -250,7 +253,6 @@ const ChildrenForm = ({
           )}
         </div>
       </form>
-      <div></div>
     </div>
   );
 };

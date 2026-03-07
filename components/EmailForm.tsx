@@ -58,9 +58,11 @@ export default function EmailForm() {
     }
   };
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <main className="w-full max-w-150 mx-auto flex items-center px-8 flex-col gap-10 justify-center bg-background rounded-sm py-10 shadow-[0px_0px_19px_-10px_#00000024]">
+    <div className="min-h-screen flex flex-col items-center justify-center sm:p-4">
+      <main className="w-full h-screen sm:h-fit max-w-150 mx-auto flex items-center px-6 sm:px-8 flex-col sm:gap-10 justify-start sm:justify-center bg-background rounded-sm py-10 sm:shadow-[0px_0px_5px_-1px_#00000024]">
         <WaiverStepper currentStepIndex={0} />
+        <div className="w-full flex flex-col h-full justify-center">
+
         <div className="flex flex-col w-full gap-8">
           <div className="flex flex-col gap-2">
             <h1 className="text-4xl font-extrabold">
@@ -81,7 +83,7 @@ export default function EmailForm() {
                   placeholder="Email"
                   className="w-full"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {setEmail(e.target.value); setEmailError(null)}}
                   aria-invalid={!!emailError || !!emailExistingError}
                 />
                 {emailError && (
@@ -100,9 +102,9 @@ export default function EmailForm() {
                           e.preventDefault();
                           handleSubmit(e, email, true);
                         }}
-                        className="cursor-pointer text-muted-foreground underline decoration-2 underline-offset-4 decoration-primary/20 hover:decoration-primary/50 outline-none focus-visible:border-primary focus-visible:border-b-4 transition-all w-fit"
+                        className="cursor-pointer -mb-2 underline decoration-2 underline-offset-4 decoration-destructive/20 hover:decoration-destructive/50 outline-none focus-visible:border-primary focus-visible:border-b-4 transition-all w-fit"
                       >
-                        Edit your waiver
+                        Edit waiver
                       </button>
                     </p>
                   </div>
@@ -141,6 +143,7 @@ export default function EmailForm() {
               {isEdit ? "Sign a new waiver" : "Edit an existing waiver"}
             </button>
           </div>
+        </div>
         </div>
       </main>
     </div>

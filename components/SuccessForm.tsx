@@ -60,6 +60,7 @@ const SuccessForm = ({
           <p>Error, could not find waiver</p>
         )}
       </div>
+      <p>You may close this page.</p>
     </div>
   );
 };

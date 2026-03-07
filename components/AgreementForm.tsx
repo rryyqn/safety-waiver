@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { agreementSchema } from "@/lib/validations";
 import {
-  ClipboardCheck,
   ShieldCheck,
   TriangleAlert,
   Cross,
@@ -61,7 +60,7 @@ const AgreementForm = ({
 
   const [formError, setFormError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Record<string, string | undefined>>({});
 
   const isEdit = initialData?.submittedAt !== null;
 
@@ -116,6 +115,8 @@ const AgreementForm = ({
       setIsSubmitting(false);
     }
   };
+
+  
 
   return (
     <div className="flex flex-col w-full gap-8">
@@ -178,8 +179,8 @@ const AgreementForm = ({
         <div className={`flex flex-col gap-3 ${isEdit ? "hidden" : ""}`}>
           <div className="flex flex-col">
             <Label
-              aria-invalid={!!errors.risksAgreement}
-              className={`hover:bg-accent/50 flex items-start gap-3 rounded-sm border border-input p-4 has-aria-checked:border-blue-300 transition-all cursor-pointer has-aria-checked:bg-blue-50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive ${
+              aria-invalid={!!errors.rulesAgreement}
+              className={`hover:bg-accent/50 flex items-start gap-3 rounded-sm border border-input p-4 aria-invalid:ring-destructive/20 aria-invalid:border-destructive has-aria-checked:border-blue-300! transition-all cursor-pointer has-aria-checked:bg-blue-50! ${
                 isEdit ? "cursor-not-allowed" : ""
               }`}
             >
@@ -188,7 +189,10 @@ const AgreementForm = ({
                 className="data-[state=checked]:bg-primary data-[state=checked]:text-white"
                 checked={rulesAgreement || isEdit}
                 disabled={isEdit}
-                onCheckedChange={() => setRulesAgreement(!rulesAgreement)}
+                onCheckedChange={() => {
+                  setRulesAgreement(!rulesAgreement);
+                  setErrors((prev) => ({ ...prev, rulesAgreement: undefined }));
+                }}
               />
               <div className="grid gap-2 font-normal">
                 <p className=" leading-none font-extrabold flex flex-row gap-1 items-center">
@@ -212,7 +216,7 @@ const AgreementForm = ({
           <div className="flex flex-col">
             <Label
               aria-invalid={!!errors.risksAgreement}
-              className={`hover:bg-accent/50 flex items-start gap-3 rounded-sm border border-input p-4 has-aria-checked:border-blue-300 transition-all cursor-pointer has-aria-checked:bg-blue-50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive ${
+              className={`hover:bg-accent/50 flex items-start gap-3 rounded-sm border border-input p-4 has-aria-checked:border-blue-300! transition-all cursor-pointer has-aria-checked:bg-blue-50! aria-invalid:ring-destructive/20 aria-invalid:border-destructive ${
                 isEdit ? "cursor-not-allowed" : ""
               }`}
             >
@@ -221,7 +225,10 @@ const AgreementForm = ({
                 className=" data-[state=checked]:bg-primary data-[state=checked]:text-white"
                 checked={risksAgreement || isEdit}
                 disabled={isEdit}
-                onCheckedChange={() => setRisksAgreement(!risksAgreement)}
+                onCheckedChange={() => {
+                  setRisksAgreement(!risksAgreement);
+                  setErrors((prev) => ({ ...prev, risksAgreement: undefined }));
+                }}
               />
               <div className="grid gap-2 font-normal">
                 <p className=" leading-none font-extrabold flex flex-row gap-1 items-center">
@@ -245,8 +252,8 @@ const AgreementForm = ({
           </div>
           <div className="flex flex-col">
             <Label
-              aria-invalid={!!errors.risksAgreement}
-              className={`hover:bg-accent/50 flex items-start gap-3 rounded-sm border border-input p-4 has-aria-checked:border-blue-300 transition-all cursor-pointer has-aria-checked:bg-blue-50 aria-invalid:ring-destructive/20 aria-invalid:border-destructive ${
+              aria-invalid={!!errors.medicalAgreement}
+              className={`hover:bg-accent/50 flex items-start gap-3 rounded-sm border border-input p-4 has-aria-checked:border-blue-300! transition-all cursor-pointer has-aria-checked:bg-blue-50! aria-invalid:ring-destructive/20 aria-invalid:border-destructive ${
                 isEdit ? "cursor-not-allowed" : ""
               }`}
             >
@@ -255,7 +262,10 @@ const AgreementForm = ({
                 className=" data-[state=checked]:bg-primary data-[state=checked]:text-white"
                 checked={medicalAgreement || isEdit}
                 disabled={isEdit}
-                onCheckedChange={() => setMedicalAgreement(!medicalAgreement)}
+                onCheckedChange={() => {
+                  setMedicalAgreement(!medicalAgreement);
+                  setErrors((prev) => ({ ...prev, medicalAgreement: undefined }));
+                }}
               />
               <div className="grid gap-2 font-normal">
                 <p className=" leading-none font-extrabold flex flex-row gap-1 items-center">
@@ -288,7 +298,7 @@ const AgreementForm = ({
             <Input
               type="text"
               value={signature}
-              onChange={(e) => setSignature(e.target.value)}
+              onChange={(e) => {setSignature(e.target.value); setErrors((prev) => ({...prev, signature: undefined}))}}
               placeholder={guardianName}
               aria-invalid={!!errors.signature}
               disabled={isEdit}
