@@ -132,12 +132,7 @@ const ChildrenForm = ({
 
   return (
     <div className="flex flex-col w-full gap-8">
-      <div className="flex flex-col gap-2">
-        <div className="p-4 rounded-sm bg-primary/10 text-primary w-fit mb-4">
-          <Users className="size-8" />
-        </div>
-        <h1 className="text-4xl font-extrabold">Children Details</h1>
-      </div>
+      <h1 className="text-4xl font-extrabold">Children Details</h1>
       <form className="grid w-full items-center gap-6">
         {children.length > 0 ? (
           <div className="flex flex-col gap-6">

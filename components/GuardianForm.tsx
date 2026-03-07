@@ -9,7 +9,6 @@ import {
   ArrowRight,
   CircleAlert,
   LoaderCircle,
-  User,
 } from "lucide-react";
 import { useState } from "react";
 import { DatePicker } from "@/components/DatePicker";
@@ -87,12 +86,7 @@ const GuardianForm = ({
   };
   return (
     <div className="flex flex-col w-full gap-8">
-      <div className="flex flex-col gap-2">
-        <div className="p-4 rounded-sm bg-primary/10 text-primary w-fit mb-4">
-          <User className="size-8" />
-        </div>
         <h1 className="text-4xl font-extrabold">Guardian Details</h1>
-      </div>
       <form className="grid w-full items-center gap-6">
         <div className="flex flex-col gap-3">
           <Label htmlFor="name">Full Name</Label>
@@ -182,7 +176,6 @@ const GuardianForm = ({
           )}
         </div>
       </form>
-      <div></div>
     </div>
   );
 };

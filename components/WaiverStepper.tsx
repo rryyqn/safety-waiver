@@ -7,7 +7,7 @@ const STEPS = [
   { name: "Email", icon: Mail },
   { name: "Guardian", icon: User },
   { name: "Children", icon: Users },
-  { name: "Agreement", icon: ClipboardCheck },
+  { name: "Waiver", icon: ClipboardCheck },
 ];
 
 export function WaiverStepper({

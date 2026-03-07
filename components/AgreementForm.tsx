@@ -120,11 +120,9 @@ const AgreementForm = ({
   return (
     <div className="flex flex-col w-full gap-8">
       <div className="flex flex-col gap-2">
-        <div className="p-4 rounded-sm bg-primary/10 text-primary w-fit mb-4">
-          <ClipboardCheck className="size-8" />
-        </div>
+        
         <h1 className="text-4xl font-extrabold">
-          {isEdit ? "Review Agreement" : "Sign Agreement"}
+          {isEdit ? "Review Waiver" : "Sign Waiver"}
         </h1>
 
         {isEdit ? (
